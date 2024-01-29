@@ -9,7 +9,7 @@ dBuildAndRun:
 	docker build . --file .docker/Dockerfile \
 		--tag local.cloudbees/bp-agent:latest
 	docker run -it --name bp-agent_$(shell echo $$RANDOM) \
-		-v $(MKFILEDIR):/root/cloudbees-ci-addons -v $(HOME)/.aws:/root/.aws \
+		-v $(MKFILEDIR):/root/cloudbees-cd-addons -v $(HOME)/.aws:/root/.aws \
 		local.cloudbees/bp-agent:latest
 
 .PHONY: tfRun
@@ -23,7 +23,7 @@ tfRun: guard-ROOT
 .PHONY: tfDestroy
 tfDestroy: ## Destroy Terraform Blueprint passed as parameter. ROOT=getting-started/v4 make tfDestroy 
 tfDestroy: guard-ROOT
-	terraform -chdir=blueprints/$(ROOT) destroy -target=module.eks_blueprints_addon_cbci
+	terraform -chdir=blueprints/$(ROOT) destroy -target=module.eks_blueprints_addon_cbcd
 	terraform -chdir=blueprints/$(ROOT) destroy -target=module.eks_blueprints_addons
 	terraform -chdir=blueprints/$(ROOT) destroy -target=module.eks
 	terraform -chdir=blueprints/$(ROOT) destroy -target=module.vpc
