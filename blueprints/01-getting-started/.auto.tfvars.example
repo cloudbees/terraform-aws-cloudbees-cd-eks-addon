@@ -1,0 +1,9 @@
+hosted_zone = "example.domain.com" # Required. Route 53 Hosted Zone to host CloudBees CD subdomains records.
+
+# tags = {  # Optional. Tags for the resources created. Default set to empty. Shared among all.
+#   "cb-owner" : "team-services"
+#   "cb-user" : "demo-user"
+#   "cb-environment" : "demo-env"
+# }
+
+# suffix = my-demo #Optional
