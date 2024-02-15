@@ -26,7 +26,7 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| hosted_zone | Route 53 Hosted Zone. CloudBees CD Apps is configured to use subdomains in this Hosted Zone. | `string` | n/a | yes |
+| hosted_zone | Route 53 Hosted Zone. CloudBees CD Apps is configured to use this hosted zone. | `string` | n/a | yes |
 | suffix | Unique suffix to be assigned to all resources | `string` | `""` | no |
 | tags | Tags to apply to resources | `map(string)` | `{}` | no |
 
@@ -36,13 +36,9 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 |------|-------------|
 | acm_certificate_arn | ACM certificate ARN |
 | cbcd_helm | Helm configuration for CloudBees CD Add-on. It is accesible only via state files. |
-| cbcd_initial_admin_password | Operation Center Service Initial Admin Password for CloudBees CD Add-on. |
-| cbcd_liveness_probe_ext | Operation Center Service External Liveness Probe for CloudBees CD Add-on. |
-| cbcd_liveness_probe_int | Operation Center Service Internal Liveness Probe for CloudBees CD Add-on. |
 | cbcd_namespace | Namespace for CloudBees CD Add-on. |
-| cbcd_oc_ing | Operation Center Ingress for CloudBees CD Add-on. |
-| cbcd_oc_pod | Operation Center Pod for CloudBees CD Add-on. |
-| cbcd_oc_url | URL of the CloudBees CD Operations Center for CloudBees CD Add-on. |
+| cbcd_password | command to get the admin password of Cloudbees CD |
+| cbcd_url | URL of the CloudBees CD Operations Center for CloudBees CD Add-on. |
 | eks_cluster_arn | EKS cluster ARN |
 | kubeconfig_add | Add Kubeconfig to local configuration to access the K8s API. |
 | kubeconfig_export | Export KUBECONFIG environment variable to access to access the K8s API. |

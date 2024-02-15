@@ -38,8 +38,8 @@ locals {
 module "eks_blueprints_addon_cbcd" {
   source = "../../"
 
-  host_name  = "cd.${var.hosted_zone}"
-  cert_arn     = module.acm.acm_certificate_arn
+  host_name = "cd.${var.hosted_zone}"
+  cert_arn  = module.acm.acm_certificate_arn
 
   depends_on = [
     module.eks_blueprints_addons
