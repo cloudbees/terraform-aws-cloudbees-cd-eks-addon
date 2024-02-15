@@ -88,8 +88,7 @@ CloudBees CD Add-on uses for its resources definition `helms release` which make
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | cert_arn | Certificate ARN from AWS ACM | `string` | n/a | yes |
-| hosted_zone | Route53 Hosted zone name | `string` | n/a | yes |
-| temp_license | Temporary license details | `map(string)` | n/a | yes |
+| host_name | Route53 Host name | `string` | n/a | yes |
 | helm_config | CloudBees CD Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
 | secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret cbcd-secrets. It can be mounted for Casc | `string` | `"secrets-values.yml"` | no |
 
@@ -97,13 +96,10 @@ CloudBees CD Add-on uses for its resources definition `helms release` which make
 
 | Name | Description |
 |------|-------------|
-| cbcd_domain_name | Route 53 Domain Name to host CloudBees CD Services. |
-| cbcd_liveness_probe_ext | Operation Center Service External Liveness Probe for CloudBees CD Add-on. |
-| cbcd_liveness_probe_int | Operation Center Service Internal Liveness Probe for CloudBees CD Add-on. |
+| cbcd_domain_name | Route 53 Domain Name to host CloudBees CI Services. |
+| cbcd_flowserver_pod | Flow Server Pod for CloudBees CD Add-on. |
 | cbcd_namespace | Namespace for CloudBees CD Addon. |
-| cbci_oc_ing | Operation Center Ingress for CloudBees CD Add-on. |
-| cbci_oc_pod | Operation Center Pod for CloudBees CD Add-on. |
-| cbci_oc_url | Operation Center URL for CloudBees CD Add-on using Subdomain and Certificates. |
+| cbcd_url | URL for CloudBees CD Add-on. |
 | merged_helm_config | (merged) Helm Config for CloudBees CD |
 <!-- END_TF_DOCS -->
 
