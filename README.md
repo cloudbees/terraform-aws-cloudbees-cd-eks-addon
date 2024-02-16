@@ -24,16 +24,9 @@ There are examples of implementation included in the [blueprint](blueprints) fol
 module "eks_blueprints_addon_cbcd" {
   source = "REPLACE_ME"
 
-  host_name     = "example.domain.com"
+  host_name     = "example"
   hosted_zone   = "domain.com"
   cert_arn     = "arn:aws:acm:us-east-1:0000000:certificate/0000000-aaaa-bbb-ccc-thisIsAnExample"
-  temp_license = {
-    first_name  = "Foo"
-    last_name  = "Bar"
-    email = "foo.bar@acme.com"
-    company = "Acme Inc."
-  }
-
 }
 ```
 
