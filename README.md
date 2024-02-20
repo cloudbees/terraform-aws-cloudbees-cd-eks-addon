@@ -82,8 +82,9 @@ CloudBees CD Add-on uses for its resources definition `helms release` which make
 |------|-------------|------|---------|:--------:|
 | cert_arn | Certificate ARN from AWS ACM | `string` | n/a | yes |
 | host_name | Route53 Host name | `string` | n/a | yes |
+| flow_admin_secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_admin_secret. | `string` | `"flow_admin_secrets-values.yml"` | no |
+| flow_db_secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_db_secret. | `string` | `"flow_db_secrets-values.yml"` | no |
 | helm_config | CloudBees CD Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
-| secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret cbcd-secrets. It can be mounted for Casc | `string` | `"secrets-values.yml"` | no |
 
 ### Outputs
 

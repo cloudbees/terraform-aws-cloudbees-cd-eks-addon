@@ -1,12 +1,11 @@
 # Copyright (c) CloudBees, Inc.
 
 locals {
-  secret_data   = fileexists(var.secrets_file) ? yamldecode(file(var.secrets_file)) : {}
-  create_secret = length(local.secret_data) > 0
-  flow_admin_secrets_conf = [
-    <<-EOT
-      EOT
-  ]
+  flow_admin_secret_data   = fileexists(var.flow_admin_secrets_file) ? yamldecode(file(var.flow_admin_secrets_file)) : {}
+  create_flow_admin_secret = length(local.flow_admin_secret_data) > 0
+
+  flow_db_secret_data   = fileexists(var.flow_db_secrets_file) ? yamldecode(file(var.flow_db_secrets_file)) : {}
+  create_flow_db_secret = length(local.flow_db_secret_data) > 0
 }
 
 resource "kubernetes_namespace" "cbcd" {
@@ -20,14 +19,25 @@ resource "kubernetes_namespace" "cbcd" {
 # Flow Admin Secrets to be passed to CD
 # https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
 resource "kubernetes_secret" "flow_admin_secret" {
-  count = local.create_secret ? 1 : 0
+  count = local.create_flow_admin_secret ? 1 : 0
 
   metadata {
-    name      = "flow_admin_secret"
+    name      = "flow-admin-secret"
     namespace = kubernetes_namespace.cbcd.metadata[0].name
   }
 
-  data = yamldecode(file(var.secrets_file))
+  data = yamldecode(file(var.flow_admin_secrets_file))
+}
+
+resource "kubernetes_secret" "flow_db_secret" {
+  count = local.create_flow_db_secret ? 1 : 0
+
+  metadata {
+    name      = "flow-db-secret"
+    namespace = kubernetes_namespace.cbcd.metadata[0].name
+  }
+
+  data = yamldecode(file(var.flow_db_secrets_file))
 }
 
 resource "helm_release" "cloudbees_cd" {
@@ -41,13 +51,10 @@ resource "helm_release" "cloudbees_cd" {
   #App version: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-cd/
   version    = try(var.helm_config.version, "2.28.0")
   repository = try(var.helm_config.repository, "https://public-charts.artifacts.cloudbees.com/repository/public/")
-  values = local.create_secret ? concat(var.helm_config.values, local.flow_admin_secrets_conf, [templatefile("${path.module}/values.yml", {
-    host_name  = var.host_name
-    cert_arn     = var.cert_arn
-    })]) : concat(var.helm_config.values, [templatefile("${path.module}/values.yml", {
-    host_name  = var.host_name
-    cert_arn     = var.cert_arn
-  })])
+  values = length(var.helm_config.values) > 0 ? var.helm_config.values : [templatefile("${path.module}/values.yml", {
+    host_name = var.host_name
+    cert_arn  = var.cert_arn
+  })]
 
   timeout                    = try(var.helm_config.timeout, 1200)
   repository_key_file        = try(var.helm_config.repository_key_file, null)

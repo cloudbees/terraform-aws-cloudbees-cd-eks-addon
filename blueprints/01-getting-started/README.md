@@ -26,6 +26,7 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| host_name | Host name. CloudBees CD Apps is configured to use this host name. | `string` | n/a | yes |
 | hosted_zone | Route 53 Hosted Zone. CloudBees CD Apps is configured to use this hosted zone. | `string` | n/a | yes |
 | suffix | Unique suffix to be assigned to all resources | `string` | `""` | no |
 | tags | Tags to apply to resources | `map(string)` | `{}` | no |

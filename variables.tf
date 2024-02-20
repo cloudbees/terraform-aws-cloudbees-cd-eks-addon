@@ -30,8 +30,14 @@ variable "cert_arn" {
   }
 }
 
-variable "secrets_file" {
-  description = "Secrets file yml path containing the secrets names:values to create the Kubernetes secret cbcd-secrets. It can be mounted for Casc"
-  default     = "secrets-values.yml"
+variable "flow_admin_secrets_file" {
+  description = "Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_admin_secret."
+  default     = "flow_admin_secrets-values.yml"
+  type        = string
+}
+
+variable "flow_db_secrets_file" {
+  description = "Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_db_secret."
+  default     = "flow_db_secrets-values.yml"
   type        = string
 }
