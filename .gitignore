@@ -48,3 +48,6 @@ terraform.rc
 
 #Secrets files
 *secrets-values.yml
+
+#Ignore kubeconfig files
+kubeconfig*.yml
