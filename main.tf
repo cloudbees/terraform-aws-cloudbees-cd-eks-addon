@@ -1,9 +1,6 @@
 # Copyright (c) CloudBees, Inc.
 
 locals {
-  flow_admin_secret_data   = fileexists(var.flow_admin_secrets_file) ? yamldecode(file(var.flow_admin_secrets_file)) : {}
-  create_flow_admin_secret = length(local.flow_admin_secret_data) > 0
-
   flow_db_secret_data   = fileexists(var.flow_db_secrets_file) ? yamldecode(file(var.flow_db_secrets_file)) : {}
   create_flow_db_secret = length(local.flow_db_secret_data) > 0
 }
@@ -14,19 +11,6 @@ resource "kubernetes_namespace" "cbcd" {
     name = try(var.helm_config.namespace, "cbcd")
   }
 
-}
-
-# Flow Admin Secrets to be passed to CD
-# https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#kubernetes-secrets
-resource "kubernetes_secret" "flow_admin_secret" {
-  count = local.create_flow_admin_secret ? 1 : 0
-
-  metadata {
-    name      = "flow-admin-secret"
-    namespace = kubernetes_namespace.cbcd.metadata[0].name
-  }
-
-  data = yamldecode(file(var.flow_admin_secrets_file))
 }
 
 resource "kubernetes_secret" "flow_db_secret" {

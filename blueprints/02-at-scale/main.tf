@@ -134,8 +134,7 @@ module "eks_blueprints_addon_cbcd" {
     })]
   }
 
-  flow_admin_secrets_file = "k8s/flow_admin_secrets-values.yml"
-  flow_db_secrets_file    = "k8s/flow_db_secrets-values.yml"
+  flow_db_secrets_file = "k8s/flow_db_secrets-values.yml"
 
   depends_on = [
     module.eks_blueprints_addons,
@@ -214,7 +213,7 @@ module "eks_blueprints_addons" {
   #Issue 23
   #enable_aws_node_termination_handler   = false
   #aws_node_termination_handler_asg_arns = data.aws_autoscaling_groups.eks_node_groups.arns
-  enable_velero = true
+  enable_velero = false
   velero = {
     s3_backup_location = local.velero_s3_backup_location
   }

@@ -3,7 +3,6 @@
 #https://artifacthub.io/packages/helm/cloudbees/cloudbees-flow/
 #https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/configuration#cloudbees_helm_charts
 #https://github.com/cloudbees/cloudbees-examples/blob/master/cloudbees-cd/kubernetes/cloudbees-cd-prod-multizone.yaml
-clusteredMode: true
 
 ##---------------------------------------------
 ## Database configuration section
@@ -64,20 +63,8 @@ storage:
       ## replicas.
       storageClass: efs
 
-volumePermissions:
-  enabled: false
-
-##---------------------------------------------
-## Flow server admin credentials section
-##---------------------------------------------
-
-flowCredentials:
-  ## Name of the secret containing the admin user password to use.
-  ## The data field must contain base64 encoded value for key 'CBF_SERVER_ADMIN_PASSWORD'.
-  ## E.g., kubectl create secret generic your-flow-admin-secret --from-literal=CBF_SERVER_ADMIN_PASSWORD='rrx!*d$z75Dsb'
-  ##
-  ## Set the name of the secret that contains the admin user password.
-  existingSecret: flow-admin-secret
+#volumePermissions:
+#  enabled: false
 
 ##---------------------------------------------
 ## Plataform
@@ -114,6 +101,3 @@ externalGatewayAgent:
     ## Set the host name same as ingress.host .
     publicHostName: ${host_name}
 
-boundAgent:
-  flowCredentials:
-    existingSecret: flow-admin-secret
