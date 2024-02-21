@@ -372,7 +372,6 @@ module "acm" {
 
   #Important: Application Services Hostname must be the same as the domain name or subject_alternative_names
   domain_name = "${var.host_name}.${var.hosted_zone}"
-  #domain_name = var.hosted_zone
 
   #https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html
   zone_id = local.route53_zone_id

@@ -51,7 +51,7 @@ resource "helm_release" "cloudbees_cd" {
   #App version: https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-cd/
   version    = try(var.helm_config.version, "2.28.0")
   repository = try(var.helm_config.repository, "https://public-charts.artifacts.cloudbees.com/repository/public/")
-  values = length(var.helm_config.values) > 0 ? var.helm_config.values : [templatefile("${path.module}/values.yml", {
+  values = length(trimspace(var.helm_config.values[0])) > 0 ? var.helm_config.values : [templatefile("${path.module}/values.yml", {
     host_name = var.host_name
     cert_arn  = var.cert_arn
   })]
