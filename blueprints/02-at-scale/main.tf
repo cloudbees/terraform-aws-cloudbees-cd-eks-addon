@@ -61,10 +61,11 @@ module "db" {
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
-  db_name  = "flow"
-  username = local.db_user_name
-  password = local.db_password
-  port     = 5432
+  db_name                     = "flow"
+  username                    = local.db_user_name
+  password                    = local.db_password
+  manage_master_user_password = false
+  port                        = 5432
 
   # setting manage_master_user_password_rotation to false after it
   # has been set to true previously disables automatic rotation
@@ -216,9 +217,14 @@ module "eks_blueprints_addons" {
   enable_velero = false
   velero = {
     s3_backup_location = local.velero_s3_backup_location
+    iam_role_name      = "velero-iam-role"
   }
 
   tags = local.tags
+
+  depends_on = [
+    module.eks
+  ]
 }
 
 
@@ -304,7 +310,7 @@ resource "kubernetes_storage_class_v1" "efs" {
     name = "efs"
 
     annotations = {
-      "storageclass.kubernetes.io/is-default-class" = "true"
+      "storageclass.kubernetes.io/is-default-class" = "false"
     }
   }
 
@@ -348,7 +354,7 @@ module "efs" {
   }
   security_group_description = "${local.efs_name} EFS security group"
   security_group_vpc_id      = module.vpc.vpc_id
-  #https://docs.cloudbees.com/docs/cloudbees-ci/latest/eks-install-guide/eks-pre-install-requirements-helm#_storage_requirements
+
   performance_mode = "generalPurpose"
   throughput_mode  = "elastic"
   security_group_rules = {
@@ -386,9 +392,9 @@ module "vpc" {
   cidr = local.vpc_cidr
 
   azs              = local.azs
-  public_subnets   = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k)]
+  public_subnets   = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 4, k)]
   private_subnets  = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 48)]
-  database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 6)]
+  database_subnets = [for k, v in local.azs : cidrsubnet(local.vpc_cidr, 8, k + 96)]
 
   create_database_subnet_group = true
   enable_nat_gateway           = true
