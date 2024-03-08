@@ -95,6 +95,7 @@ resource "helm_release" "cloudbees_cd" {
   }
 
   depends_on = [
-    kubernetes_namespace.cbcd
+    kubernetes_namespace.cbcd,
+    kubernetes_secret.flow_db_secret
   ]
 }

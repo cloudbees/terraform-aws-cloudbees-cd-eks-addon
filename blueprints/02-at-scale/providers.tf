@@ -12,7 +12,7 @@ terraform {
     }
     helm = {
       source  = "hashicorp/helm"
-      version = ">= 2.5.1"
+      version = ">= 2.12.1"
     }
     kubectl = {
       source  = "gavinbunney/kubectl"
@@ -22,6 +22,11 @@ terraform {
     time = {
       source  = "hashicorp/time"
       version = ">= 0.7.1"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = ">= 3.1.0"
     }
 
     null = {
@@ -75,3 +80,4 @@ provider "kubectl" {
     args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
   }
 }
+

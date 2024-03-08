@@ -5,6 +5,7 @@ data "aws_route53_zone" "this" {
 data "aws_availability_zones" "available" {}
 
 locals {
+
   name   = var.suffix == "" ? "cbcd-bp02" : "cbcd-bp02-${var.suffix}"
   region = "us-east-1"
 
@@ -46,7 +47,7 @@ locals {
 module "db" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier = "flow-db"
+  identifier = "flow-db-${random_string.dbsuffix.result}"
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
@@ -175,7 +176,7 @@ module "ebs_csi_driver_irsa" {
 
 module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "1.12.0"
+  version = "1.16.0"
 
   cluster_name      = module.eks.cluster_name
   cluster_endpoint  = module.eks.cluster_endpoint
@@ -214,9 +215,10 @@ module "eks_blueprints_addons" {
   #Issue 23
   #enable_aws_node_termination_handler   = false
   #aws_node_termination_handler_asg_arns = data.aws_autoscaling_groups.eks_node_groups.arns
-  enable_velero = false
+  enable_velero = true
   velero = {
     s3_backup_location = local.velero_s3_backup_location
+    values             = [file("k8s/velero-values.yml")]
     iam_role_name      = "velero-iam-role"
   }
 
@@ -498,3 +500,9 @@ module "cbcd_s3_bucket" {
   tags = local.tags
 }
 
+resource "random_string" "dbsuffix" {
+  length  = 4
+  upper   = false
+  lower   = true
+  special = false
+}

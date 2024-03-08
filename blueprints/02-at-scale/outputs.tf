@@ -19,15 +19,14 @@ output "cbcd_namespace" {
   description = "Namespace for CloudBees CI Add-on."
   value       = module.eks_blueprints_addon_cbcd.cbcd_namespace
 }
-
-output "cbcd_general_password" {
-  description = "Operation Center Service Initial Admin Password for CloudBees CI Add-on. Additionally, there are developer and guest users using the same password."
-  value       = "kubectl get secret cbcd-secrets -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -o jsonpath='{.data.secJenkinsPass}' | base64 -d"
+output "cbcd_url" {
+  description = "URL of the CloudBees CD Operations Center for CloudBees CD Add-on."
+  value       = module.eks_blueprints_addon_cbcd.cbcd_url
 }
 
-output "cbcd_url" {
-  description = "URL of the CloudBees CI Operations Center for CloudBees CI Add-on."
-  value       = module.eks_blueprints_addon_cbcd.cbcd_url
+output "cbcd_password" {
+  description = "command to get the admin password of Cloudbees CD"
+  value       = "kubectl get secret --namespace ${module.eks_blueprints_addon_cbcd.cbcd_namespace} cloudbees-cd-cloudbees-flow-credentials -o jsonpath='{.data.CBF_SERVER_ADMIN_PASSWORD}' | base64 --decode; echo"
 }
 
 
