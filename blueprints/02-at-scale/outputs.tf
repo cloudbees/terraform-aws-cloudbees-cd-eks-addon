@@ -29,7 +29,6 @@ output "cbcd_password" {
   value       = "kubectl get secret --namespace ${module.eks_blueprints_addon_cbcd.cbcd_namespace} cloudbees-cd-cloudbees-flow-credentials -o jsonpath='{.data.CBF_SERVER_ADMIN_PASSWORD}' | base64 --decode; echo"
 }
 
-
 output "acm_certificate_arn" {
   description = "ACM certificate ARN"
   value       = module.acm.acm_certificate_arn

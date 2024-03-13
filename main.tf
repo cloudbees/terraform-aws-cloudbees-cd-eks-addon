@@ -40,7 +40,7 @@ resource "helm_release" "cloudbees_cd" {
     cert_arn  = var.cert_arn
   })]
 
-  timeout                    = try(var.helm_config.timeout, 1200)
+  timeout                    = try(var.helm_config.timeout, 10000)
   repository_key_file        = try(var.helm_config.repository_key_file, null)
   repository_cert_file       = try(var.helm_config.repository_cert_file, null)
   repository_ca_file         = try(var.helm_config.repository_ca_file, null)
@@ -60,8 +60,8 @@ resource "helm_release" "cloudbees_cd" {
   skip_crds                  = try(var.helm_config.skip_crds, null)
   render_subchart_notes      = try(var.helm_config.render_subchart_notes, null)
   disable_openapi_validation = try(var.helm_config.disable_openapi_validation, null)
-  wait                       = try(var.helm_config.wait, true)
-  wait_for_jobs              = try(var.helm_config.wait_for_jobs, null)
+  wait                       = try(var.helm_config.wait, false)
+  wait_for_jobs              = try(var.helm_config.wait_for_jobs, false)
   dependency_update          = try(var.helm_config.dependency_update, null)
   replace                    = try(var.helm_config.replace, null)
   lint                       = try(var.helm_config.lint, null)

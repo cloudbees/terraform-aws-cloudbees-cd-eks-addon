@@ -2,5 +2,5 @@
 #https://github.com/kubernetes-sigs/external-dns/tree/master/charts/external-dns/Chart.yaml
 provider: "aws"
 domainFilters: [ "${zoneDNS}" ]
-policy: "sync"
+policy: "upsert-only"
 logLevel: "debug"
