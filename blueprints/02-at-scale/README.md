@@ -58,9 +58,9 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 | kubeconfig_export | Export KUBECONFIG environment variable to access the K8s API. |
 | s3_cbcd_arn | cbcd s3 Bucket Arn |
 | s3_cbcd_name | cbcd s3 Bucket Name. It is required by Velero for backup |
-| velero_backup_on_demand_team_a | Take an on-demand velero backup from the schedulle for Team A. |
-| velero_backup_schedule_team_a | Create velero backup schedulle for Team A, deleting existing one (if exists). It can be applied for other controllers using EBS. |
-| velero_restore_team_a | Restore Team A from backup. It can be applicable for rest of schedulle backups. |
+| velero_backup_on_demand_team_cd | Take an on-demand velero backup from the schedulle for Team A. |
+| velero_backup_schedule_team_cd | Create velero backup schedulle for Team A, deleting existing one (if exists). It can be applied for other controllers using EBS. |
+| velero_restore_team_cd | Restore Team A from backup. It can be applicable for rest of schedulle backups. |
 | vpc_arn | VPC ID |
 <!-- END_TF_DOCS -->
 

@@ -69,17 +69,17 @@ output "aws_backup_efs_protected_resource" {
   value       = "aws backup describe-protected-resource --resource-arn ${module.efs.arn} --region ${local.region}"
 }
 
-output "velero_backup_schedule_team_a" {
+output "velero_backup_schedule_team_cd" {
   description = "Create velero backup schedulle for Team A, deleting existing one (if exists). It can be applied for other controllers using EBS."
   value       = "velero schedule delete ${local.velero_bk_demo} --confirm || true; velero create schedule ${local.velero_bk_demo} --schedule='@every 30m' --ttl 2h --include-namespaces ${module.eks_blueprints_addon_cbcd.cbcd_namespace} --exclude-resources pods,events,events.events.k8s.io --selector tenant=team-cd"
 }
 
-output "velero_backup_on_demand_team_a" {
+output "velero_backup_on_demand_team_cd" {
   description = "Take an on-demand velero backup from the schedulle for Team A. "
   value       = "velero backup create --from-schedule ${local.velero_bk_demo} --wait"
 }
 
-output "velero_restore_team_a" {
+output "velero_restore_team_cd" {
   description = "Restore Team A from backup. It can be applicable for rest of schedulle backups."
   value       = "kubectl delete all -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -l tenant=team-cd; kubectl delete pvc -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -l tenant=team-cd; kubectl delete ep -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -l tenant=team-cd; velero restore create --from-schedule ${local.velero_bk_demo}"
 }
