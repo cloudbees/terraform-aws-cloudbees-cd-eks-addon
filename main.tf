@@ -6,11 +6,9 @@ locals {
 }
 
 resource "kubernetes_namespace" "cbcd" {
-
   metadata {
     name = try(var.helm_config.namespace, "cbcd")
   }
-
 }
 
 resource "kubernetes_secret" "flow_db_secret" {
@@ -61,7 +59,7 @@ resource "helm_release" "cloudbees_cd" {
   render_subchart_notes      = try(var.helm_config.render_subchart_notes, null)
   disable_openapi_validation = try(var.helm_config.disable_openapi_validation, null)
   wait                       = try(var.helm_config.wait, false)
-  wait_for_jobs              = try(var.helm_config.wait_for_jobs, false)
+  wait_for_jobs              = try(var.helm_config.wait_for_jobs, null)
   dependency_update          = try(var.helm_config.dependency_update, null)
   replace                    = try(var.helm_config.replace, null)
   lint                       = try(var.helm_config.lint, null)
@@ -96,6 +94,20 @@ resource "helm_release" "cloudbees_cd" {
 
   depends_on = [
     kubernetes_namespace.cbcd,
-    kubernetes_secret.flow_db_secret
+    kubernetes_secret.flow_db_secret,
+    time_sleep.wait_30_seconds
   ]
+}
+
+# Need to wait a few seconds when removing the cbcd resource to give helm
+# time to finish cleaning up.
+#
+# Otherwise, after `terraform destroy`:
+# │ Error: uninstallation completed with 1 error(s): uninstall: Failed to purge
+#   the release: release: not found
+
+resource "time_sleep" "wait_30_seconds" {
+  depends_on = [kubernetes_namespace.cbcd]
+
+  destroy_duration = "30s"
 }
