@@ -36,7 +36,7 @@ locals {
   })
 
   velero_s3_backup_location = "${module.cbcd_s3_bucket.s3_bucket_arn}/velero"
-  velero_bk_demo            = "team-a-pvc-bk"
+  velero_bk_demo            = "team-cd-bk"
 
 }
 
