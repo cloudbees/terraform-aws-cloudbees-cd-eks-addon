@@ -71,7 +71,7 @@ output "aws_backup_efs_protected_resource" {
 
 output "velero_backup_schedule_team_cd" {
   description = "Create velero backup schedulle for Team A, deleting existing one (if exists). It can be applied for other controllers using EBS."
-  value       = "velero schedule delete ${local.velero_bk_demo} --confirm || true; velero create schedule ${local.velero_bk_demo} --schedule='@every 30m' --ttl 2h --include-namespaces ${module.eks_blueprints_addon_cbcd.cbcd_namespace} --exclude-resources pods,events,events.events.k8s.io --selector tenant=team-cd"
+  value       = "velero schedule delete ${local.velero_bk_demo} --confirm || true; velero create schedule ${local.velero_bk_demo} --schedule='@every 30m' --ttl 2h --include-namespaces ${module.eks_blueprints_addon_cbcd.cbcd_namespace} --exclude-resources events,events.events.k8s.io --selector tenant=team-cd"
 }
 
 output "velero_backup_on_demand_team_cd" {
