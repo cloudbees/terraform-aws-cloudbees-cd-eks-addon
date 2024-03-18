@@ -29,10 +29,8 @@ probes-common () {
   local ROOT=$1
   eval "$(get-tf-output "$ROOT" kubeconfig_export)"
   until [ "$(eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" | awk '{ print $3 }' | grep -v STATUS | grep -v -c Running)" == 0 ]; do sleep 10 && echo "Waiting for Operation Center Pod to get ready..."; done ;\
-    eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" && printf "$MSG_INFO" "CD Servver Pod is Ready."
+    eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" && printf "$MSG_INFO" "CD Server Pod is Ready."
   CD_URL=$(get-tf-output "$ROOT" cbcd_url)
-  until eval "$(get-tf-output "$ROOT" cbcd_liveness_probe_ext)"; do sleep $RETRY_SECONDS && echo "Waiting for CD Server to pass Health Check from outside the clustery..."; done ;\
-    printf "$MSG_INFO" "CD Server passed Health Check outside the cluster. It is available at $CD_URL."
 }
 
 probes-bp01 () {
@@ -45,9 +43,7 @@ probes-bp01 () {
 probes-bp02 () {
   local ROOT="02-at-scale"
   eval "$(get-tf-output "$ROOT" kubeconfig_export)"
-  GENERAL_PASS=$(eval "$(get-tf-output "$ROOT" cbcd_general_password)"); \
-    printf "$MSG_INFO" "General Password all users: $GENERAL_PASS."
-  eval "$(get-tf-output "$ROOT" velero_backup_schedule_team_a)" && eval "$(get-tf-output "$ROOT" velero_backup_on_demand_team_a)" > "/tmp/backup.txt" && \
+  eval "$(get-tf-output "$ROOT" velero_backup_schedule_team_cd)" && eval "$(get-tf-output "$ROOT" velero_backup_on_demand_team_cd)" > "/tmp/backup.txt" && \
 		cat "/tmp/backup.txt" | grep "Backup completed with status: Completed" && \
 		printf "$MSG_INFO" "Velero backups are working"
 }

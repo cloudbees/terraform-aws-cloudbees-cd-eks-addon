@@ -64,7 +64,7 @@ The two main components of CloudBees CD, Operations Center and Managed Controlle
 - Amazon EFS file systems are scoped to an AWS Region and can be accessed from any Availability Zone in the Region the file system was created in. Using Amazon EFS as a storage class for the Operations Center and Managed Controller allows pods to be rescheduled successfully onto healthy nodes in the event of an Availability Zone outage. Amazon EFS file systems may increase the cost of the deployment compared to the Amazon EBS option, but provide greater fault tolerance.
 
 > [!IMPORTANT]  
-> CloudBees HA (active-active) requires Amazon EFS. See [CloudBees CD EKS Storage Requirements](https://docs.cloudbees.com/docs/cloudbees-ci/latest/eks-install-guide/eks-pre-install-requirements-helm#_storage_requirements).
+> CloudBees CD clustered mode requires Amazon EFS. See [CloudBees CD EKS Storage Requirements](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist).
 
 > [!NOTE]
 > For more information on pricing, see the [Amazon EBS pricing page](https://aws.amazon.com/ebs/pricing/) and the [Amazon EFS pricing page](https://aws.amazon.com/efs/pricing/).

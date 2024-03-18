@@ -12,13 +12,11 @@ locals {
   db_user_name = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_USER
   db_password  = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_PASSWORD
 
-  vpc_name             = "${local.name}-vpc"
-  cluster_name         = "${local.name}-eks"
-  efs_name             = "${local.name}-efs"
-  resource_group_name  = "${local.name}-rg"
-  bucket_name          = "${local.name}-s3"
-  kubeconfig_file      = "kubeconfig_${local.name}.yaml"
-  kubeconfig_file_path = abspath("k8s/${local.kubeconfig_file}")
+  vpc_name            = "${local.name}-vpc"
+  cluster_name        = "${local.name}-eks"
+  efs_name            = "${local.name}-efs"
+  resource_group_name = "${local.name}-rg"
+  bucket_name         = "${local.name}-s3"
 
   vpc_cidr = "10.0.0.0/16"
 
@@ -176,7 +174,7 @@ module "ebs_csi_driver_irsa" {
 
 module "eks_blueprints_addons" {
   source  = "aws-ia/eks-blueprints-addons/aws"
-  version = "1.16.0"
+  version = "1.12.0"
 
   cluster_name      = module.eks.cluster_name
   cluster_endpoint  = module.eks.cluster_endpoint
@@ -225,7 +223,7 @@ module "eks_blueprints_addons" {
   tags = local.tags
 
   depends_on = [
-    module.eks
+    time_sleep.wait_60_seconds
   ]
 }
 
@@ -336,7 +334,7 @@ resource "null_resource" "create_kubeconfig" {
   depends_on = [module.eks]
 
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name ${module.eks.cluster_name} --region ${local.region} --kubeconfig ${local.kubeconfig_file_path}"
+    command = "aws eks update-kubeconfig --name ${module.eks.cluster_name} --region ${local.region}"
   }
 }
 
@@ -505,4 +503,11 @@ resource "random_string" "dbsuffix" {
   upper   = false
   lower   = true
   special = false
+}
+
+# Need to wait a few seconds when before setup the eks addons
+
+resource "time_sleep" "wait_60_seconds" {
+  depends_on       = [module.eks]
+  destroy_duration = "60s"
 }

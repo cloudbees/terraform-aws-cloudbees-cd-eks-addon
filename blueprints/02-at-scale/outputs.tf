@@ -1,9 +1,3 @@
-
-output "kubeconfig_export" {
-  description = "Export KUBECONFIG environment variable to access the K8s API."
-  value       = "export KUBECONFIG=${local.kubeconfig_file_path}"
-}
-
 output "kubeconfig_add" {
   description = "Add Kubeconfig to local configuration to access the K8s API."
   value       = "aws eks update-kubeconfig --region ${local.region} --name ${local.cluster_name}"
@@ -71,7 +65,7 @@ output "aws_backup_efs_protected_resource" {
 
 output "velero_backup_schedule_team_cd" {
   description = "Create velero backup schedulle for Team A, deleting existing one (if exists). It can be applied for other controllers using EBS."
-  value       = "velero schedule delete ${local.velero_bk_demo} --confirm || true; velero create schedule ${local.velero_bk_demo} --schedule='@every 30m' --ttl 2h --include-namespaces ${module.eks_blueprints_addon_cbcd.cbcd_namespace} --exclude-resources events,events.events.k8s.io --selector tenant=team-cd"
+  value       = "velero schedule delete ${local.velero_bk_demo} --confirm || true; velero create schedule ${local.velero_bk_demo} --schedule='@every 30m' --ttl 2h --include-namespaces ${module.eks_blueprints_addon_cbcd.cbcd_namespace} --exclude-resources events,events.events.k8s.io"
 }
 
 output "velero_backup_on_demand_team_cd" {
@@ -81,5 +75,5 @@ output "velero_backup_on_demand_team_cd" {
 
 output "velero_restore_team_cd" {
   description = "Restore Team A from backup. It can be applicable for rest of schedulle backups."
-  value       = "kubectl delete all -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -l tenant=team-cd; kubectl delete pvc -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -l tenant=team-cd; kubectl delete ep -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace} -l tenant=team-cd; velero restore create --from-schedule ${local.velero_bk_demo}"
+  value       = "kubectl delete all -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace}; kubectl delete pvc -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace}; kubectl delete ep -n ${module.eks_blueprints_addon_cbcd.cbcd_namespace}; velero restore create --from-schedule ${local.velero_bk_demo}"
 }

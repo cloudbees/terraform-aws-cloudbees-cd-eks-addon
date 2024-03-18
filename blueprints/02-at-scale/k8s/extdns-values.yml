@@ -7,3 +7,4 @@ provider: "aws"
 domainFilters: [ "${zoneDNS}" ]
 policy: "upsert-only"
 logLevel: "debug"
+sources: [ "ingress" ]

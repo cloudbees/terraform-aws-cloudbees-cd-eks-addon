@@ -55,7 +55,6 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 | efs_arn | EFS ARN. |
 | eks_cluster_arn | EKS cluster ARN |
 | kubeconfig_add | Add Kubeconfig to local configuration to access the K8s API. |
-| kubeconfig_export | Export KUBECONFIG environment variable to access the K8s API. |
 | s3_cbcd_arn | cbcd s3 Bucket Arn |
 | s3_cbcd_name | cbcd s3 Bucket Name. It is required by Velero for backup |
 | velero_backup_on_demand_team_cd | Take an on-demand velero backup from the schedulle for Team A. |
