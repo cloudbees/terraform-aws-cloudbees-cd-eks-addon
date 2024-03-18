@@ -1,6 +1,6 @@
 
 variable "tags" {
-  description = "Tags to apply to resources"
+  description = "Tags to apply to resources."
   default     = {}
   type        = map(string)
 }
@@ -11,7 +11,7 @@ variable "host_name" {
 }
 
 variable "hosted_zone" {
-  description = "Route 53 Hosted Zone. CloudBees CD Apps is configured to use this hosted zone."
+  description = "Route 53 Hosted Zone. CloudBees CI Apps is configured to use subdomains in this Hosted Zone."
   type        = string
 }
 

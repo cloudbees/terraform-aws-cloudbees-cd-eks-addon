@@ -60,21 +60,22 @@ endef
 .PHONY: dRun
 dRun: ## Build (if not locally present) and Run the Blueprint Agent using Bash as Entrypoint. It is ideal starting point for all targets. Example: make dRun
 dRun:
-	$(eval IMAGE := $(shell docker image ls | grep -c local.cloudbees/bp-agent))
+	$(eval IMAGE := $(shell docker image ls | grep -c local.cloudbees/bp-agent-cd))
 	@if [ "$(IMAGE)" == "0" ]; then \
-		printf $(MSG_INFO) "Building Docker Image local.cloudbees/bp-agent:latest" && \
-		docker build . --file $(MKFILEDIR)/blueprints/Dockerfile --tag local.cloudbees/bp-agent:latest; \
+		printf $(MSG_INFO) "Building Docker Image local.cloudbees/bp-agent-cd:latest" && \
+		docker build . --file $(MKFILEDIR)/blueprints/Dockerfile --tag local.cloudbees/bp-agent-cd:latest; \
 		fi
-	docker run --rm -it --name bp-agent \
+	docker run --rm -it --name bp-agent-cd \
 		-v $(MKFILEDIR):/$(BP_AGENT_USER)/cbcd-eks-addon -v $(HOME)/.aws:/$(BP_AGENT_USER)/.aws \
-		local.cloudbees/bp-agent:latest
+		local.cloudbees/bp-agent-cd:latest
 
 .PHONY: tfpreFlightChecks
 tfpreFlightChecks: ## Run preflight checks for terraform according to getting-started/README.md . Example: ROOT=02-at-scale make tfpreFlightChecks
 tfpreFlightChecks: guard-ROOT
 	@if [ "$(shell whoami)" != "$(BP_AGENT_USER)" ]; then printf $(MSG_WARN) "$(BP_AGENT_USER) user is not detected. Note that blueprints validations use the companion Blueprint Docker Agent available via: make dRun"; fi
 	@if [ ! -f blueprints/$(ROOT)/.auto.tfvars ]; then printf $(MSG_ERROR) "blueprints/$(ROOT)/.auto.tfvars file does not exist and it is required to store your own values"; exit 1; fi
-	@if ([ ! -f blueprints/$(ROOT)/k8s/secrets-values.yml ] && [ $(ROOT) == "02-at-scale" ]); then printf $(MSG_ERROR) "blueprints/$(ROOT)/secrets-values.yml file does not exist and it is required to store your secrets"; exit 1; fi
+	@if ([ ! -f blueprints/$(ROOT)/k8s/flow_admin_secrets-values.yml ] && [ $(ROOT) == "02-at-scale" ]); then printf $(MSG_ERROR) "blueprints/$(ROOT)/flow_admin_secrets-values.yml file does not exist and it is required to store your secrets"; exit 1; fi
+	@if ([ ! -f blueprints/$(ROOT)/k8s/flow_db_secrets-values.yml ] && [ $(ROOT) == "02-at-scale" ]); then printf $(MSG_ERROR) "blueprints/$(ROOT)/flow_db_secrets-values.yml file does not exist and it is required to store your secrets"; exit 1; fi
 	$(eval USER_ID := $(shell aws sts get-caller-identity | grep UserId | cut -d"," -f 1 | xargs ))
 	@if [ "$(USER_ID)" == "" ]; then printf $(MSG_ERROR) "AWS Authention for CLI is not configured" && exit 1; fi
 	@printf $(MSG_INFO) "Preflight Checks OK for $(USER_ID)"

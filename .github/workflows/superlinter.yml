@@ -4,7 +4,7 @@
 name: "Code Quality: Super-Linter"
 
 on:
-  pull_request:
+  push:
 
 jobs:
   superlinter:

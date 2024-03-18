@@ -38,7 +38,7 @@ locals {
 module "eks_blueprints_addon_cbcd" {
   source = "../../"
 
-  host_name = "cd.${var.hosted_zone}"
+  host_name = "${var.host_name}.${var.hosted_zone}"
   cert_arn  = module.acm.acm_certificate_arn
 
   depends_on = [
@@ -197,8 +197,7 @@ module "acm" {
   version = "4.3.2"
 
   #Important: Application Services Hostname must be the same as the domain name or subject_alternative_names
-  domain_name = "cd.${var.hosted_zone}"
-  #domain_name = var.hosted_zone
+  domain_name = "${var.host_name}.${var.hosted_zone}"
 
   #https://docs.aws.amazon.com/acm/latest/userguide/dns-validation.html
   zone_id = local.route53_zone_id

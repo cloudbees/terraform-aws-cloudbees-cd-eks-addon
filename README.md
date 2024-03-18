@@ -24,16 +24,9 @@ There are examples of implementation included in the [blueprint](blueprints) fol
 module "eks_blueprints_addon_cbcd" {
   source = "REPLACE_ME"
 
-  host_name     = "example.domain.com"
+  host_name     = "example"
   hosted_zone   = "domain.com"
   cert_arn     = "arn:aws:acm:us-east-1:0000000:certificate/0000000-aaaa-bbb-ccc-thisIsAnExample"
-  temp_license = {
-    first_name  = "Foo"
-    last_name  = "Bar"
-    email = "foo.bar@acme.com"
-    company = "Acme Inc."
-  }
-
 }
 ```
 
@@ -71,7 +64,7 @@ The two main components of CloudBees CD, Operations Center and Managed Controlle
 - Amazon EFS file systems are scoped to an AWS Region and can be accessed from any Availability Zone in the Region the file system was created in. Using Amazon EFS as a storage class for the Operations Center and Managed Controller allows pods to be rescheduled successfully onto healthy nodes in the event of an Availability Zone outage. Amazon EFS file systems may increase the cost of the deployment compared to the Amazon EBS option, but provide greater fault tolerance.
 
 > [!IMPORTANT]  
-> CloudBees HA (active-active) requires Amazon EFS. See [CloudBees CD EKS Storage Requirements](https://docs.cloudbees.com/docs/cloudbees-ci/latest/eks-install-guide/eks-pre-install-requirements-helm#_storage_requirements).
+> CloudBees CD clustered mode requires Amazon EFS. See [CloudBees CD EKS Storage Requirements](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist).
 
 > [!NOTE]
 > For more information on pricing, see the [Amazon EBS pricing page](https://aws.amazon.com/ebs/pricing/) and the [Amazon EFS pricing page](https://aws.amazon.com/efs/pricing/).
@@ -88,22 +81,18 @@ CloudBees CD Add-on uses for its resources definition `helms release` which make
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | cert_arn | Certificate ARN from AWS ACM | `string` | n/a | yes |
-| hosted_zone | Route53 Hosted zone name | `string` | n/a | yes |
-| temp_license | Temporary license details | `map(string)` | n/a | yes |
+| host_name | Route53 Host name | `string` | n/a | yes |
+| flow_db_secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_db_secret. | `string` | `"flow_db_secrets-values.yml"` | no |
 | helm_config | CloudBees CD Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
-| secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret cbcd-secrets. It can be mounted for Casc | `string` | `"secrets-values.yml"` | no |
 
 ### Outputs
 
 | Name | Description |
 |------|-------------|
-| cbcd_domain_name | Route 53 Domain Name to host CloudBees CD Services. |
-| cbcd_liveness_probe_ext | Operation Center Service External Liveness Probe for CloudBees CD Add-on. |
-| cbcd_liveness_probe_int | Operation Center Service Internal Liveness Probe for CloudBees CD Add-on. |
+| cbcd_domain_name | Route 53 Domain Name to host CloudBees CI Services. |
+| cbcd_flowserver_pod | Flow Server Pod for CloudBees CD Add-on. |
 | cbcd_namespace | Namespace for CloudBees CD Addon. |
-| cbci_oc_ing | Operation Center Ingress for CloudBees CD Add-on. |
-| cbci_oc_pod | Operation Center Pod for CloudBees CD Add-on. |
-| cbci_oc_url | Operation Center URL for CloudBees CD Add-on using Subdomain and Certificates. |
+| cbcd_url | URL for CloudBees CD Add-on. |
 | merged_helm_config | (merged) Helm Config for CloudBees CD |
 <!-- END_TF_DOCS -->
 

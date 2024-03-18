@@ -1,6 +1,10 @@
+# Copyright (c) CloudBees, Inc.
+
 #https://artifacthub.io/packages/helm/external-dns/external-dns
 #https://github.com/kubernetes-sigs/external-dns/tree/master/charts/external-dns/Chart.yaml
+
 provider: "aws"
 domainFilters: [ "${zoneDNS}" ]
 policy: "upsert-only"
 logLevel: "debug"
+sources: [ "ingress" ]
