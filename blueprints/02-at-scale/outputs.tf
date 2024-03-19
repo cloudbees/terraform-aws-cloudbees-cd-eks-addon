@@ -1,3 +1,8 @@
+output "kubeconfig_export" {
+  description = "Export KUBECONFIG environment variable to access to access the K8s API."
+  value       = "export KUBECONFIG=${local.kubeconfig_file_path}"
+}
+
 output "kubeconfig_add" {
   description = "Add Kubeconfig to local configuration to access the K8s API."
   value       = "aws eks update-kubeconfig --region ${local.region} --name ${local.cluster_name}"
@@ -69,7 +74,7 @@ output "velero_backup_schedule_team_cd" {
 }
 
 output "velero_backup_on_demand_team_cd" {
-  description = "Take an on-demand velero backup from the schedulle for Team A. "
+  description = "Take an on-demand velero backup from the schedulle for Team CD. "
   value       = "velero backup create --from-schedule ${local.velero_bk_demo} --wait"
 }
 

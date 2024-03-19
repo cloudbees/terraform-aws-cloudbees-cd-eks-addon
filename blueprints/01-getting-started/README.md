@@ -6,7 +6,7 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 - **[Amazon EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/)**:
   - [AWS Load Balancer Controller](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/aws-load-balancer-controller/)
   - [External DNS](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/external-dns/)
-  - [EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) to allocate EBS volumes for hosting [JENKINS_HOME](https://docs.cloudbees.com/docs/cloudbees-ci/latest/backup-restore/jenkins-home).
+  - [EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) to allocate EBS volumes for hosting Cloudbees CD.
 
 > [!TIP]
 > A [Resource Group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is added to get a full list with all resources created by this blueprint.
@@ -38,7 +38,7 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 | acm_certificate_arn | ACM certificate ARN |
 | cbcd_helm | Helm configuration for CloudBees CD Add-on. It is accesible only via state files. |
 | cbcd_namespace | Namespace for CloudBees CD Add-on. |
-| cbcd_password | command to get the admin password of Cloudbees CD |
+| cbcd_password | Command to get the admin password of Cloudbees CD |
 | cbcd_url | URL of the CloudBees CD Operations Center for CloudBees CD Add-on. |
 | eks_cluster_arn | EKS cluster ARN |
 | kubeconfig_add | Add Kubeconfig to local configuration to access the K8s API. |
@@ -66,49 +66,20 @@ Once the resources have been created, note that a `kubeconfig` file has been cre
 
 Once you get access to K8s API from your terminal, validate that:
 
-- The CloudBees Operation Center Pod is in `Running` state
-
-  ```sh
-  eval $(terraform output --raw cbcd_oc_pod)
-  ```
-
-- The Ingress Controller is ready and has assigned a valid `ADDRESS`
-
-  ```sh
-  eval $(terraform output --raw cbcd_oc_ing)
-  ```
-
-- Check that the Operation Center Service is running from inside the K8s cluster. Successful output should be nothing in return.
-
-  ```sh
-  eval $(terraform output --raw cbcd_liveness_probe_int)
-  ```
-
-- Check that the Operation Center Service is running from outside the K8s cluster. Successful output should be nothing in return.
-
-  ```sh
-  eval $(terraform output --raw cbcd_liveness_probe_ext)
-  ```
-
 > [!NOTE]
 > DNS propagation can take a few minutes
 
-- Once propagation is ready, it is possible to access the CloudBees CD installation Wizard by copying the outcome of the below command in your browser.
+- Once propagation is ready, it is possible to access the CloudBees CD by copying the outcome of the below command in your browser.
 
   ```sh
-  terraform output cbcd_oc_url
+  terraform output cbcd_url
   ```
 
-Now that you’ve installed CloudBees CD and operations center, you’ll want to see your system in action. To do this, follow the steps explained in [CloudBees CD EKS Install Guide - Signing in to your CloudBees CD installation](https://docs.cloudbees.com/docs/cloudbees-ci/latest/eks-install-guide/installing-eks-using-helm#log-in). You will need the initial admin password to log in as:
+Now that you’ve installed CloudBees CD, you’ll want to see your system in action. You will need the initial admin password to log in by run the following command in your terminal:
 
   ```sh
-  eval $(terraform output --raw cbcd_initial_admin_password)
+  eval $(terraform output --raw cbcd_password)
   ```
-
-> [!NOTE]
-> Once you can create the first admin user in the Wizard, this password will not be valid.
-
-Finally, install the suggested plugins and create the first admin user.
 
 ## Destroy
 
