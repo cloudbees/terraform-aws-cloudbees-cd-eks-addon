@@ -25,7 +25,7 @@ output "cbcd_url" {
 
 output "cbcd_password" {
   description = "command to get the admin password of Cloudbees CD"
-  value       = "kubectl get secret --namespace ${module.eks_blueprints_addon_cbcd.cbcd_namespace} cloudbees-cd-cloudbees-flow-credentials -o jsonpath='{.data.CBF_SERVER_ADMIN_PASSWORD}' | base64 --decode; echo"
+  value       = "module.eks_blueprints_addon_cbcd.cbcd_password"
 }
 
 output "acm_certificate_arn" {

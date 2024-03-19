@@ -3,11 +3,12 @@
 locals {
   flow_db_secret_data   = fileexists(var.flow_db_secrets_file) ? yamldecode(file(var.flow_db_secrets_file)) : {}
   create_flow_db_secret = length(local.flow_db_secret_data) > 0
+  namespace             = try(var.helm_config.namespace, "cbcd")
 }
 
 resource "kubernetes_namespace" "cbcd" {
   metadata {
-    name = try(var.helm_config.namespace, "cbcd")
+    name = local.namespace
   }
 }
 
@@ -25,7 +26,7 @@ resource "kubernetes_secret" "flow_db_secret" {
 resource "helm_release" "cloudbees_cd" {
 
   name             = try(var.helm_config.name, "cloudbees-cd")
-  namespace        = try(var.helm_config.namespace, "cbcd")
+  namespace        = local.namespace
   create_namespace = false
   description      = try(var.helm_config.description, null)
   chart            = "cloudbees-flow"
