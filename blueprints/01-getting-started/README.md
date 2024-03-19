@@ -54,8 +54,6 @@ Initialize the root module and any associated configuration for providers and fi
 
 For more detailed information, see the documentation for the [Terraform Core workflow](https://www.terraform.io/intro/core-workflow).
 
-Once deployed has finished, it is possible to check the generated AWS resources via Resource Groups.
-
 ## Validate
 
 Once the resources have been created, note that a `kubeconfig` file has been created inside the respective `blueprint/k8s` folder. Start defining the Environment Variable [KUBECONFIG](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#the-kubeconfig-environment-variable) to point to the generated file.
