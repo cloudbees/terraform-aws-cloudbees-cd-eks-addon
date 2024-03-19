@@ -198,7 +198,7 @@ module "eks_blueprints_addons" {
     kube-proxy = {}
   }
   #01-getting-started
-  enable_external_dns = true
+  enable_external_dns = false
   external_dns = {
     values = [templatefile("k8s/extdns-values.yml", {
       zoneDNS = var.hosted_zone
