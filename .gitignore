@@ -51,3 +51,4 @@ terraform.rc
 
 #Ignore kubeconfig files
 kubeconfig_*.yaml
+blueprints/02-at-scale/k8s/flow_db_secrets-values.yml
