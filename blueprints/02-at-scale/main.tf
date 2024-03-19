@@ -12,11 +12,13 @@ locals {
   db_user_name = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_USER
   db_password  = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_PASSWORD
 
-  vpc_name            = "${local.name}-vpc"
-  cluster_name        = "${local.name}-eks"
-  efs_name            = "${local.name}-efs"
-  resource_group_name = "${local.name}-rg"
-  bucket_name         = "${local.name}-s3"
+  vpc_name             = "${local.name}-vpc"
+  cluster_name         = "${local.name}-eks"
+  efs_name             = "${local.name}-efs"
+  resource_group_name  = "${local.name}-rg"
+  bucket_name          = "${local.name}-s3"
+  kubeconfig_file      = "kubeconfig_${local.name}.yaml"
+  kubeconfig_file_path = abspath("k8s/${local.kubeconfig_file}")
 
   vpc_cidr = "10.0.0.0/16"
 
@@ -334,7 +336,7 @@ resource "null_resource" "create_kubeconfig" {
   depends_on = [module.eks]
 
   provisioner "local-exec" {
-    command = "aws eks update-kubeconfig --name ${module.eks.cluster_name} --region ${local.region}"
+    command = "aws eks update-kubeconfig --name ${module.eks.cluster_name} --region ${local.region} --kubeconfig ${local.kubeconfig_file_path}"
   }
 }
 
