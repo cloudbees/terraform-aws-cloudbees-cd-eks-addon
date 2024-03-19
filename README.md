@@ -13,7 +13,7 @@
 
 This [AWS Partner Addon](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/aws-partner-addons/) aims to ease the adoption and experimentation of CloudBees CD enterprise features by:
 
-- Encapsulating the Deployment of [CloudBees CD Modern in AWS EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/eks-install-guide/installing-eks-using-helm#_configuring_your_environment) into a Terraform module.
+- Encapsulating the Deployment of [CloudBees CD Modern in AWS EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/) into a Terraform module.
 - Providing a series of [Blueprints](blueprints) implementing the mentioned CloudBees CD Addon module on top of [AWS Terraform EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
 
 ## Usage
