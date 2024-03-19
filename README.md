@@ -58,7 +58,7 @@ These blueprints rely on an existing Hosted Zone in AWS Route53. If you don't ha
 
 ## Data Storage Options
 
-The two main components of CloudBees CD, Operations Center and Managed Controllers, use a file system to persist data. Data is stored in a folder called [Jenkins Home](https://docs.cloudbees.com/docs/cloudbees-cd/latest/backup-restore/jenkins-home) that can be configured to be stored in Amazon EBS or EFS:
+The main components of CloudBees CD, use a file system to persist data. Data is stored in a couple of [places](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist) that can be configured to be stored in Amazon EBS or EFS:
 
 - Amazon EBS volumes are scoped to a particular Availability Zone to offer high-speed, low-latency access to the EC2 instances they are connected to. If an Availability Zone fails, an EBS volume becomes inaccessible due to file corruption, or there is a service outage, the data on these volumes will become inaccessible. Operations Center and Managed Controller pods require this persistent data and have no mechanism to replicate the data, so we recommend frequent backups for Amazon EBS.
 - Amazon EFS file systems are scoped to an AWS Region and can be accessed from any Availability Zone in the Region the file system was created in. Using Amazon EFS as a storage class for the Operations Center and Managed Controller allows pods to be rescheduled successfully onto healthy nodes in the event of an Availability Zone outage. Amazon EFS file systems may increase the cost of the deployment compared to the Amazon EBS option, but provide greater fault tolerance.
