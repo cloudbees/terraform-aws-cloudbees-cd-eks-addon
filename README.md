@@ -85,7 +85,7 @@ The main components of CloudBees CD, use a file system to persist data. Data is 
 
 | Name | Description |
 |------|-------------|
-| cbcd_domain_name | Route 53 Domain Name to host CloudBees CI Services. |
+| cbcd_domain_name | Route 53 Domain Name to host CloudBees CD Services. |
 | cbcd_flowserver_pod | Flow Server Pod for CloudBees CD Add-on. |
 | cbcd_namespace | Namespace for CloudBees CD Addon. |
 | cbcd_url | URL for CloudBees CD Add-on. |

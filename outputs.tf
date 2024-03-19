@@ -16,7 +16,7 @@ output "cbcd_url" {
 }
 
 output "cbcd_domain_name" {
-  description = "Route 53 Domain Name to host CloudBees CI Services."
+  description = "Route 53 Domain Name to host CloudBees CD Services."
   value       = var.host_name
 }
 
