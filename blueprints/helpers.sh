@@ -28,7 +28,7 @@ get-tf-output () {
 probes-common () {
   local ROOT=$1
   eval "$(get-tf-output "$ROOT" kubeconfig_export)"
-  until [ "$(eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" | awk '{ print $3 }' | grep -v STATUS | grep -v -c Running)" == 0 ]; do sleep 10 && echo "Waiting for Operation Center Pod to get ready..."; done ;\
+  until [ "$(eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" | awk '{ print $3 }' | grep -v STATUS | grep -v -c Running)" == 0 ]; do sleep 10 && echo "Waiting for CD Server Pod to get ready..."; done ;\
     eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" && printf "$MSG_INFO" "CD Server Pod is Ready."
   CD_URL=$(get-tf-output "$ROOT" cbcd_url)
 }
