@@ -74,7 +74,6 @@ tfpreFlightChecks: ## Run preflight checks for terraform according to getting-st
 tfpreFlightChecks: guard-ROOT
 	@if [ "$(shell whoami)" != "$(BP_AGENT_USER)" ]; then printf $(MSG_WARN) "$(BP_AGENT_USER) user is not detected. Note that blueprints validations use the companion Blueprint Docker Agent available via: make dRun"; fi
 	@if [ ! -f blueprints/$(ROOT)/.auto.tfvars ]; then printf $(MSG_ERROR) "blueprints/$(ROOT)/.auto.tfvars file does not exist and it is required to store your own values"; exit 1; fi
-	@if ([ ! -f blueprints/$(ROOT)/k8s/flow_admin_secrets-values.yml ] && [ $(ROOT) == "02-at-scale" ]); then printf $(MSG_ERROR) "blueprints/$(ROOT)/flow_admin_secrets-values.yml file does not exist and it is required to store your secrets"; exit 1; fi
 	@if ([ ! -f blueprints/$(ROOT)/k8s/flow_db_secrets-values.yml ] && [ $(ROOT) == "02-at-scale" ]); then printf $(MSG_ERROR) "blueprints/$(ROOT)/flow_db_secrets-values.yml file does not exist and it is required to store your secrets"; exit 1; fi
 	$(eval USER_ID := $(shell aws sts get-caller-identity | grep UserId | cut -d"," -f 1 | xargs ))
 	@if [ "$(USER_ID)" == "" ]; then printf $(MSG_ERROR) "AWS Authention for CLI is not configured" && exit 1; fi

@@ -27,6 +27,6 @@ output "cbcd_domain_name" {
 
 output "cbcd_flowserver_pod" {
   description = "Flow Server Pod for CloudBees CD Add-on."
-  value       = "kubectl get pod -n ${helm_release.cloudbees_cd.namespace} flow-server"
+  value       = "kubectl get pods -l app=flow-server -n ${helm_release.cloudbees_cd.namespace}"
 }
 
