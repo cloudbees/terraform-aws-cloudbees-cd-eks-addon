@@ -25,7 +25,7 @@ output "cbcd_url" {
 
 output "cbcd_password" {
   description = "command to get the admin password of Cloudbees CD"
-  value       = "module.eks_blueprints_addon_cbcd.cbcd_password"
+  value       = module.eks_blueprints_addon_cbcd.cbcd_password
 }
 
 output "acm_certificate_arn" {
