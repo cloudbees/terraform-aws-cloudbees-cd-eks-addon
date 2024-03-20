@@ -17,7 +17,7 @@ output "cbcd_url" {
 
 output "cbcd_password" {
   description = "Command to get the admin password of Cloudbees CD"
-  value       = "kubectl get secret --namespace ${local.namespace} cloudbees-cd-cloudbees-flow-credentials -o jsonpath='{.data.CBF_SERVER_ADMIN_PASSWORD}' | base64 --decode; echo"
+  value       = "kubectl get secret --namespace ${local.namespace} cloudbees-cd-cloudbees-flow-credentials -o jsonpath='{.data.CBF_SERVER_ADMIN_PASSWORD}' | base64 -d; echo"
 }
 
 output "cbcd_domain_name" {

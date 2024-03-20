@@ -36,13 +36,15 @@ probes-common () {
 probes-bp01 () {
   local ROOT="01-getting-started"
   eval "$(get-tf-output "$ROOT" kubeconfig_export)"
-  INITIAL_PASS=$(eval "$(get-tf-output "$ROOT" cbcd_initial_admin_password)"); \
+  INITIAL_PASS=$(eval "$(get-tf-output "$ROOT" cbcd_password)"); \
     printf "$MSG_INFO" "Initial Admin Password: $INITIAL_PASS."
 }
 
 probes-bp02 () {
   local ROOT="02-at-scale"
   eval "$(get-tf-output "$ROOT" kubeconfig_export)"
+  INITIAL_PASS=$(eval "$(get-tf-output "$ROOT" cbcd_password)"); \
+      printf "$MSG_INFO" "Initial Admin Password: $INITIAL_PASS."
   eval "$(get-tf-output "$ROOT" velero_backup_schedule_team_cd)" && eval "$(get-tf-output "$ROOT" velero_backup_on_demand_team_cd)" > "/tmp/backup.txt" && \
 		cat "/tmp/backup.txt" | grep "Backup completed with status: Completed" && \
 		printf "$MSG_INFO" "Velero backups are working"
