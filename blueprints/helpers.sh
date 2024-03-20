@@ -17,7 +17,7 @@ test-all () {
     export ROOT="$bp"
     cd "$SCRIPTDIR"/.. && make test
   done
-}``
+}
 
 get-tf-output () {
   local ROOT=$1
