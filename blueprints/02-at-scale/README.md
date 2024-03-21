@@ -8,7 +8,7 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 - The following **[Amazon EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/)**:
   - EKS Managed node groups are watched by [Cluster Autoscaler](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/cluster-autoscaler/) to accomplish [CloudBees auto-scaling nodes on EKS](https://docs.cloudbees.com/docs/cloudbees-ci/latest/cloud-admin-guide/eks-auto-scaling-nodes) on defined EKS Managed node groups.
   - [EFS CSI Driver](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/aws-efs-csi-driver/) to connect EFS Drive to the EKS Cluster.
-  - The [Metrics Server](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/metrics-server/) is required by CBCI HA/HS Controllers for Horizontal Pod Autoscaling.
+  - The [Metrics Server](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/metrics-server/) is required by CBCD for Horizontal Pod Autoscaling.
   - [Velero](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/velero/) for Backup and Restore of Kubernetes Resources and Volumen snapshot (EBS compatible only).
 
 > [!TIP]
@@ -30,7 +30,7 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | host_name | Host name. CloudBees CD Apps is configured to use this host name. | `string` | n/a | yes |
-| hosted_zone | Route 53 Hosted Zone. CloudBees CI Apps is configured to use subdomains in this Hosted Zone. | `string` | n/a | yes |
+| hosted_zone | Route 53 Hosted Zone. CloudBees CD is configured to use subdomains in this Hosted Zone. | `string` | n/a | yes |
 | suffix | Unique suffix to be assigned to all resources | `string` | `""` | no |
 | tags | Tags to apply to resources. | `map(string)` | `{}` | no |
 
