@@ -30,8 +30,8 @@
      inkscape:cy="539.89147"
      inkscape:window-width="1392"
      inkscape:window-height="940"
-     inkscape:window-x="0"
-     inkscape:window-y="25"
+     inkscape:window-x="799"
+     inkscape:window-y="49"
      inkscape:window-maximized="0"
      inkscape:current-layer="g85" />
   <defs
@@ -601,6 +601,7 @@
                                 <xhtml:br />
 
 
+
                                 Gateway
                             </xhtml:div>
             </xhtml:div>
@@ -649,6 +650,7 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 Route 53
                                 <xhtml:br />
+
 
 
                                 Hosted Zone
@@ -703,6 +705,7 @@
                                     <xhtml:br />
 
 
+
                                     gp3
                                     <xhtml:br />
 </xhtml:font>
@@ -755,6 +758,7 @@
                                 <xhtml:br />
 
 
+
                                 Manager
                             </xhtml:div>
             </xhtml:div>
@@ -805,6 +809,7 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 Application Load
                                 <xhtml:br />
+
 
 
                                 Balancing (ALB)
@@ -903,6 +908,7 @@
                                 <xhtml:br />
 
 
+
                                 Gateway
                             </xhtml:div>
             </xhtml:div>
@@ -951,6 +957,7 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 K8s Cluster
                                 <xhtml:br />
+
 
 
                                 EKS
@@ -1049,6 +1056,7 @@
                                 <xhtml:br />
 
 
+
                                 Gateway
                             </xhtml:div>
             </xhtml:div>
@@ -1143,6 +1151,7 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 NAT
                                 <xhtml:br />
+
 
 
                                 Gateway
@@ -1288,6 +1297,7 @@
                                 <xhtml:br />
 
 
+
                                 Group
                             </xhtml:div>
             </xhtml:div>
@@ -1349,6 +1359,7 @@
                                     <xhtml:br />
 
 
+
                                     gp3
                                     <xhtml:br />
 </xhtml:font>
@@ -1401,6 +1412,7 @@
                    color="#000000">
                                     EBS
                                     <xhtml:br />
+
 
 
                                     gp3
@@ -1551,6 +1563,7 @@
                                     <xhtml:br />
 
 
+
                                     Profile
                                 </xhtml:span>
               </xhtml:div>
@@ -1656,6 +1669,66 @@
            text-anchor="middle"
            id="text82">K8s Apps</text>
       </switch>
+    </g>
+    <switch
+       id="switch25-9"
+       transform="matrix(0.9999996,0,0,1.0012566,-444.89715,-789.48096)">
+      <foreignObject
+         pointer-events="none"
+         width="100%"
+         height="100%"
+         requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
+         style="overflow: visible; text-align: left;">
+        <xhtml:div
+           style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 897px; margin-left: 1005px;">
+          <xhtml:div
+             data-drawio-colors="color: #232F3E; "
+             style="box-sizing: border-box; font-size: 0px; text-align: center;">
+            <xhtml:div
+               style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                s3
+                            </xhtml:div>
+          </xhtml:div>
+        </xhtml:div>
+      </foreignObject>
+      <text
+         x="1005"
+         y="909"
+         fill="#232f3e"
+         font-family="Helvetica"
+         font-size="12px"
+         text-anchor="middle"
+         id="text25-3"
+         inkscape:label="text25-3"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:12px;font-family:Helvetica;-inkscape-font-specification:'Helvetica, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-anchor:middle;fill:#232f3e"><tspan
+           sodipodi:role="line"
+           id="tspan1"
+           x="1005"
+           y="909">RDS</tspan></text>
+    </switch>
+    <g
+       id="g5"
+       transform="matrix(0.28574413,0,0,0.21789571,523.76099,37.033705)">
+      <path
+         d="m 0,224.742 29.972,35.125 2.695,-3.201 V 32 L 29.972,28.605 0,63.717 v 161.025"
+         fill="#1a476f"
+         id="path1" />
+      <path
+         d="M 29.976,259.867 87.246,288.5 89.628,284.667 89.667,3 87.286,0 29.976,28.541 v 231.326"
+         fill="#1f5b98"
+         id="path2" />
+      <path
+         d="M 256,63.717 226.02,28.605 222.667,29.667 223.333,257 226.02,259.867 256,224.746 V 63.717"
+         fill="#2d72b8"
+         id="path3" />
+      <path
+         d="m 168.75,288.5 57.27,-28.633 V 28.541 L 168.71,0 166,3.667 l 0.039,280.666 2.711,4.167"
+         fill="#5294cf"
+         id="path4" />
+      <path
+         d="M 87.286,0 H 168.71 V 288.504 H 87.286 Z"
+         fill="#2d72b8"
+         id="path5" />
     </g>
   </g>
   <switch
