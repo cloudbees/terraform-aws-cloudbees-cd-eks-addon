@@ -4,6 +4,10 @@
 #https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/configuration#cloudbees_helm_charts
 #https://github.com/cloudbees/cloudbees-examples/blob/master/cloudbees-cd/kubernetes/cloudbees-cd-prod-multizone.yaml
 
+server:
+  autoscaling:
+    enabled: true
+
 ##---------------------------------------------
 ## Database configuration section
 ##---------------------------------------------

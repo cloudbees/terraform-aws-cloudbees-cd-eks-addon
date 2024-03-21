@@ -40,8 +40,8 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 |------|-------------|
 | acm_certificate_arn | ACM certificate ARN |
 | aws_backup_efs_protected_resource | AWS Backup Protected Resource descriction for EFS Drive. |
-| cbcd_helm | Helm configuration for CloudBees CI Add-on. It is accesible only via state files. |
-| cbcd_namespace | Namespace for CloudBees CI Add-on. |
+| cbcd_helm | Helm configuration for CloudBees CD Add-on. It is accesible only via state files. |
+| cbcd_namespace | Namespace for CloudBees CD Add-on. |
 | cbcd_password | command to get the admin password of Cloudbees CD |
 | cbcd_url | URL of the CloudBees CD Operations Center for CloudBees CD Add-on. |
 | efs_access_points | EFS Access Points. |

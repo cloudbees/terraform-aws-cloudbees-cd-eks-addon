@@ -301,18 +301,15 @@
                style="box-sizing: border-box; font-size: 0px; text-align: left;">
               <xhtml:div
                  style="display: inline-block; font-size: 15px; font-family: Helvetica; color: rgb(102, 102, 102); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;"><xhtml:i>
-                                    cbci
+                                    cbcd
                                 </xhtml:i>
 
 
                                 (Services)
                                 <xhtml:br />
 <xhtml:i>
-                                    cbci-agents
+                                    cbcd-agents
                                 </xhtml:i>
-
-
-                                (Builds)
                             </xhtml:div>
             </xhtml:div>
           </xhtml:div>
@@ -1256,7 +1253,7 @@
                 <xhtml:font
                    style="background-color: rgb(77, 153, 0); font-size: 14px;"
                    color="#ffffff">
-                                    /cbci
+                                    /cbcd
                                 </xhtml:font>
               </xhtml:div>
             </xhtml:div>
