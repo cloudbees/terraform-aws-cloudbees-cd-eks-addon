@@ -2,6 +2,7 @@
 
 Once you have familiarized yourself with the [Getting Started blueprint](../01-getting-started/README.md), this one presents a scalable architecture and configuration by adding:
 
+- An [RDS](https://aws.amazon.com/rds/) that can be used by Cloudbees CD as database server. 
 - An [EFS Drive](https://aws.amazon.com/efs/) that can be used by Cloudbees CD for cluster setup. It is managed by [AWS Backup](https://aws.amazon.com/backup/) for Backup and Restore.
 - An [s3 Bucket](https://aws.amazon.com/s3/) to store assets from applications like Velero.
 - [EKS Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) for Cloudbees CD application.
