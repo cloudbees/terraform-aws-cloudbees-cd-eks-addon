@@ -9,13 +9,13 @@ output "kubeconfig_add" {
 }
 
 output "cbcd_helm" {
-  description = "Helm configuration for CloudBees CI Add-on. It is accesible only via state files."
+  description = "Helm configuration for CloudBees CD Add-on. It is accesible only via state files."
   value       = module.eks_blueprints_addon_cbcd.merged_helm_config
   sensitive   = true
 }
 
 output "cbcd_namespace" {
-  description = "Namespace for CloudBees CI Add-on."
+  description = "Namespace for CloudBees CD Add-on."
   value       = module.eks_blueprints_addon_cbcd.cbcd_namespace
 }
 output "cbcd_url" {
