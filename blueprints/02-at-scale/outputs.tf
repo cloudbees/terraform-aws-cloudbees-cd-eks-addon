@@ -18,6 +18,7 @@ output "cbcd_namespace" {
   description = "Namespace for CloudBees CD Add-on."
   value       = module.eks_blueprints_addon_cbcd.cbcd_namespace
 }
+
 output "cbcd_url" {
   description = "URL of the CloudBees CD Operations Center for CloudBees CD Add-on."
   value       = module.eks_blueprints_addon_cbcd.cbcd_url
@@ -26,6 +27,16 @@ output "cbcd_url" {
 output "cbcd_password" {
   description = "command to get the admin password of Cloudbees CD"
   value       = module.eks_blueprints_addon_cbcd.cbcd_password
+}
+
+output "rds_instance_id" {
+  description = "DB identifier for CloudBees CD Add-on."
+  value       = local.rds_instance_id
+}
+
+output "rds_snapshot_id" {
+  description = "DB snapshot identifier for CloudBees CD Add-on."
+  value       = local.rds_snapshot_id
 }
 
 output "acm_certificate_arn" {
