@@ -112,18 +112,14 @@ else
 	@printf $(MSG_ERROR) "Blueprint $(ROOT) did not complete the Deployment target thus it is not Ready to be validated."
 endif
 
+blueprints/$(ROOT)/terraform.output: deploy
+
 .PHONY: test
-test: ## Runs a test for blueprint passed as parameters throughout their Terraform Lifecycle. Example: ROOT=02-at-scale make test
+test: blueprints/$(ROOT)/terraform.output ## Runs a test for blueprint passed as parameters throughout their Terraform Lifecycle. Example: ROOT=02-at-scale make test
 	@printf $(MSG_INFO) "Running Test for $(ROOT) blueprint ..."
-	$(call deploy,$(ROOT))
-	until ls blueprints/$(ROOT)/terraform.output; do sleep 3 && echo "Waiting for output file..."; done ;
-ifneq ("$(wildcard blueprints/$(ROOT)/terraform.output)","")
 	$(call validate,$(ROOT))
 	$(call destroy,$(ROOT))
 	$(call clean,$(ROOT))
-else
-	@printf $(MSG_ERROR) "Blueprint $(ROOT) did not complete the Deployment target thus it is not Ready for the following phases."
-endif
 
 .PHONY: test-all
 test-all: ## Runs test for all blueprints throughout their Terraform Lifecycle. Example: make test
