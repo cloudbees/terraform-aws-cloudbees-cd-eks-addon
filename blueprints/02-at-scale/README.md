@@ -50,6 +50,8 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 | eks_cluster_arn | EKS cluster ARN |
 | kubeconfig_add | Add Kubeconfig to local configuration to access the K8s API. |
 | kubeconfig_export | Export KUBECONFIG environment variable to access to access the K8s API. |
+| rds_instance_id | DB identifier for CloudBees CD Add-on. |
+| rds_snapshot_id | DB snapshot identifier for CloudBees CD Add-on. |
 | s3_cbcd_arn | cbcd s3 Bucket Arn |
 | s3_cbcd_name | cbcd s3 Bucket Name. It is required by Velero for backup |
 | velero_backup_on_demand_team_cd | Take an on-demand velero backup from the schedulle for Team CD. |
@@ -82,6 +84,18 @@ Additionally, the following is required:
   ```
 
 ### Backups and Restores
+
+- For Database Storage is based on RDS.
+
+  - Create a snapshot of the RDS instance.
+
+    ```sh
+    aws rds create-db-snapshot --db-instance-identifier $(terraform output --raw rds_instance_id) --db-snapshot-identifier $(terraform output --raw rds_snapshot_id)
+    ```
+  - Restore the RDS instance from the snapshot.
+    ```sh
+    aws rds restore-db-instance-from-db-snapshot --db-instance-identifier $(terraform output --raw rds_instance_id) --db-snapshot-identifier $(terraform output --raw rds_snapshot_id)
+    ```
 
 - For EBS Storage is based on Velero.
 

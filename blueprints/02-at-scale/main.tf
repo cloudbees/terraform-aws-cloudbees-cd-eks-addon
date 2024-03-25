@@ -38,6 +38,8 @@ locals {
   velero_s3_backup_location = "${module.cbcd_s3_bucket.s3_bucket_arn}/velero"
   velero_bk_demo            = "team-cd-bk"
 
+  rds_instance_id = "flow-db-${random_string.dbsuffix.result}"
+  rds_snapshot_id = "flow-db-snapshot-${random_string.dbsuffix.result}"
 }
 
 ################################################################################
@@ -47,7 +49,7 @@ locals {
 module "db" {
   source = "terraform-aws-modules/rds/aws"
 
-  identifier = "flow-db-${random_string.dbsuffix.result}"
+  identifier = local.rds_instance_id
 
   # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
   engine               = "postgres"
