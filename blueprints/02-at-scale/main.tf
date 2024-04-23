@@ -12,18 +12,41 @@ locals {
   db_user_name = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_USER
   db_password  = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_PASSWORD
 
-  vpc_name             = "${local.name}-vpc"
-  cluster_name         = "${local.name}-eks"
-  efs_name             = "${local.name}-efs"
-  resource_group_name  = "${local.name}-rg"
-  bucket_name          = "${local.name}-s3"
-  kubeconfig_file      = "kubeconfig_${local.name}.yaml"
-  kubeconfig_file_path = abspath("k8s/${local.kubeconfig_file}")
+  vpc_name              = "${local.name}-vpc"
+  cluster_name          = "${local.name}-eks"
+  efs_name              = "${local.name}-efs"
+  resource_group_name   = "${local.name}-rg"
+  bucket_name           = "${local.name}-s3"
+  cbcd_instance_profile = "${local.name}-instance_profile"
+  cbcd_iam_role         = "${local.name}-iam_role_mn"
+  kubeconfig_file       = "kubeconfig_${local.name}.yaml"
+  kubeconfig_file_path  = abspath("k8s/${local.kubeconfig_file}")
 
   vpc_cidr = "10.0.0.0/16"
 
   #https://docs.cloudbees.com/docs/cloudbees-common/latest/supported-platforms/cloudbees-cd-k8s#_supported_kubernetes_versions
   k8s_version = "1.28"
+
+  #https://docs.aws.amazon.com/eks/latest/userguide/choosing-instance-type.html
+  mng = {
+    common_apps = {
+      instance_types = ["m5.8xlarge"]
+    }
+    cbcd_apps = {
+      instance_types = ["m5.8xlarge"]
+      taints = {
+        key    = "dedicated"
+        value  = "cb-apps"
+        effect = "NO_SCHEDULE"
+      }
+      labels = {
+        ci_type = "cb-apps"
+      }
+    }
+    agents = {
+      instance_types = ["m5.4xlarge"]
+    }
+  }
 
   route53_zone_id  = data.aws_route53_zone.this.id
   route53_zone_arn = data.aws_route53_zone.this.arn
@@ -35,6 +58,7 @@ locals {
     "tf-repository" = "github.com/cloudbees/terraform-aws-cloudbees-cd-eks-addon"
   })
 
+  #s3 application prefixes
   velero_s3_backup_location = "${module.cbcd_s3_bucket.s3_bucket_arn}/velero"
   velero_bk_demo            = "team-cd-bk"
 
@@ -294,18 +318,126 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    mg_start = {
-      node_group_name = "managed-start"
-      instance_types  = ["m5d.4xlarge"]
+    mg_k8sApps = {
+      node_group_name = "mg-k8s-apps"
+      instance_types  = local.mng["common_apps"]["instance_types"]
       capacity_type   = "ON_DEMAND"
-      disk_size       = 25
-      desired_size    = 2
+      min_size        = 1
+      max_size        = 3
+      desired_size    = 1
+    }
+    mg_cbApps = {
+      node_group_name = "mng-cb-apps"
+      instance_types  = local.mng["cbcd_apps"]["instance_types"]
+      capacity_type   = "ON_DEMAND"
+      min_size        = 1
+      max_size        = 6
+      desired_size    = 1
+      taints          = [local.mng["cbcd_apps"]["taints"]]
+      labels          = local.mng["cbcd_apps"]["labels"]
+      create_iam_role = false
+      iam_role_arn    = aws_iam_role.managed_ng.arn
+    }
+    mg_cbAgents = {
+      node_group_name = "mng-agent"
+      instance_types  = local.mng["agents"]["instance_types"]
+      capacity_type   = "ON_DEMAND"
+      min_size        = 1
+      max_size        = 3
+      desired_size    = 1
+      taints          = [{ key = "dedicated", value = "build-linux", effect = "NO_SCHEDULE" }]
+      labels = {
+        ci_type = "build-linux"
+      }
     }
   }
 
   create_cloudwatch_log_group = false
 
   tags = local.tags
+}
+
+# AWS Instance Permissions
+
+data "aws_iam_policy_document" "managed_ng_assume_role_policy" {
+  statement {
+    sid = "EKSWorkerAssumeRole"
+
+    actions = [
+      "sts:AssumeRole",
+    ]
+    principals {
+      type        = "Service"
+      identifiers = ["ec2.amazonaws.com"]
+    }
+  }
+}
+
+resource "aws_iam_role" "managed_ng" {
+  name                  = local.cbcd_iam_role
+  description           = "EKS Managed Node group IAM Role"
+  assume_role_policy    = data.aws_iam_policy_document.managed_ng_assume_role_policy.json
+  path                  = "/"
+  force_detach_policies = true
+  # Mandatory for EKS Managed Node Group
+  managed_policy_arns = [
+    "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+    "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+    "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+    "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+  ]
+  tags = var.tags
+}
+
+resource "aws_iam_instance_profile" "managed_ng" {
+  name = local.cbcd_instance_profile
+  role = aws_iam_role.managed_ng.name
+  path = "/"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  tags = var.tags
+}
+
+# Storage Classes
+
+resource "kubernetes_annotations" "gp2" {
+  api_version = "storage.k8s.io/v1"
+  kind        = "StorageClass"
+  # This is true because the resources was already created by the ebs-csi-driver addon
+  force = "true"
+
+  metadata {
+    name = "gp2"
+  }
+
+  annotations = {
+    "storageclass.kubernetes.io/is-default-class" = "false"
+  }
+}
+
+resource "kubernetes_storage_class_v1" "gp3" {
+  metadata {
+    name = "gp3"
+
+    annotations = {
+      "storageclass.kubernetes.io/is-default-class" = "true"
+    }
+  }
+
+  storage_provisioner    = "ebs.csi.aws.com"
+  allow_volume_expansion = true
+  reclaim_policy         = "Delete"
+  volume_binding_mode    = "WaitForFirstConsumer"
+
+  parameters = {
+    encrypted = "true"
+    fsType    = "ext4"
+    type      = "gp3"
+  }
+
 }
 
 resource "kubernetes_storage_class_v1" "efs" {
