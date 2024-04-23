@@ -7,6 +7,58 @@
 server:
   autoscaling:
     enabled: true
+  nodeSelector:
+    ci_type: cb-apps
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: cb-apps
+      effect: NoSchedule
+
+web:
+  nodeSelector:
+    ci_type: cb-apps
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: cb-apps
+      effect: NoSchedule
+
+repository:
+  nodeSelector:
+    ci_type: cb-apps
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: cb-apps
+      effect: NoSchedule
+
+dois:
+  nodeSelector:
+    ci_type: cb-apps
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: cb-apps
+      effect: NoSchedule
+
+jobInit:
+  nodeSelector:
+    ci_type: cb-apps
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: cb-apps
+      effect: NoSchedule
+
+boundAgent:
+  nodeSelector:
+    ci_type: cb-apps
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: cb-apps
+      effect: NoSchedule
 
 ##---------------------------------------------
 ## Database configuration section
@@ -98,10 +150,24 @@ nginx-ingress:
 
 internalGatewayAgent:
   enabled: true
+  nodeSelector:
+    ci_type: build-linux
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: build-linux
+      effect: NoSchedule
+
 
 externalGatewayAgent:
   enabled: true
   service:
     ## Set the host name same as ingress.host .
     publicHostName: ${host_name}
-
+  nodeSelector:
+    ci_type: build-linux
+  tolerations:
+    - key: dedicated
+      operator: Equal
+      value: build-linux
+      effect: NoSchedule
