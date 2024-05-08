@@ -39,6 +39,21 @@ output "rds_snapshot_id" {
   value       = local.rds_snapshot_id
 }
 
+output "rds_arn" {
+  description = "DB ARN for CloudBees CD Add-on."
+  value       = module.db.db_instance_arn
+}
+
+output "rds_backup_cmd" {
+  description = "command to do DB backup."
+  value       = "aws rds create-db-snapshot --db-instance-identifier ${local.rds_instance_id} --db-snapshot-identifier ${local.rds_snapshot_id}"
+}
+
+output "rds_restore_cmd" {
+  description = "command to do DB restore from snapshot."
+  value       = "aws rds restore-db-instance-from-db-snapshot --db-instance-identifier ${local.rds_instance_id} --db-snapshot-identifier ${local.rds_snapshot_id}"
+}
+
 output "acm_certificate_arn" {
   description = "ACM certificate ARN"
   value       = module.acm.acm_certificate_arn
@@ -64,19 +79,9 @@ output "s3_cbcd_name" {
   value       = local.bucket_name
 }
 
-output "efs_arn" {
-  description = "EFS ARN."
-  value       = module.efs.arn
-}
-
 output "efs_access_points" {
   description = "EFS Access Points."
   value       = "aws efs describe-access-points --file-system-id ${module.efs.id} --region ${local.region}"
-}
-
-output "aws_backup_efs_protected_resource" {
-  description = "AWS Backup Protected Resource descriction for EFS Drive."
-  value       = "aws backup describe-protected-resource --resource-arn ${module.efs.arn} --region ${local.region}"
 }
 
 output "velero_backup_schedule_team_cd" {

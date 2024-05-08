@@ -15,6 +15,9 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 > [!TIP]
 > A [Resource Group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is added to get a full list with all resources created by this blueprint.
 
+## CD License
+A initial license is required to use CloudBees CD. Please refer to the [CloudBees CD Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
+
 ## Architecture
 
 ![Architecture](img/at-scale.architect.drawio.svg)
@@ -40,17 +43,18 @@ Once you have familiarized yourself with the [Getting Started blueprint](../01-g
 | Name | Description |
 |------|-------------|
 | acm_certificate_arn | ACM certificate ARN |
-| aws_backup_efs_protected_resource | AWS Backup Protected Resource descriction for EFS Drive. |
 | cbcd_helm | Helm configuration for CloudBees CD Add-on. It is accesible only via state files. |
 | cbcd_namespace | Namespace for CloudBees CD Add-on. |
 | cbcd_password | command to get the admin password of Cloudbees CD |
 | cbcd_url | URL of the CloudBees CD Operations Center for CloudBees CD Add-on. |
 | efs_access_points | EFS Access Points. |
-| efs_arn | EFS ARN. |
 | eks_cluster_arn | EKS cluster ARN |
 | kubeconfig_add | Add Kubeconfig to local configuration to access the K8s API. |
 | kubeconfig_export | Export KUBECONFIG environment variable to access to access the K8s API. |
+| rds_arn | DB ARN for CloudBees CD Add-on. |
+| rds_backup_cmd | command to do DB backup. |
 | rds_instance_id | DB identifier for CloudBees CD Add-on. |
+| rds_restore_cmd | command to do DB restore from snapshot. |
 | rds_snapshot_id | DB snapshot identifier for CloudBees CD Add-on. |
 | s3_cbcd_arn | cbcd s3 Bucket Arn |
 | s3_cbcd_name | cbcd s3 Bucket Name. It is required by Velero for backup |
@@ -90,11 +94,11 @@ Additionally, the following is required:
   - Create a snapshot of the RDS instance.
 
     ```sh
-    aws rds create-db-snapshot --db-instance-identifier $(terraform output --raw rds_instance_id) --db-snapshot-identifier $(terraform output --raw rds_snapshot_id)
+    eval $(terraform output -raw rds_backup_cmd)
     ```
   - Restore the RDS instance from the snapshot.
     ```sh
-    aws rds restore-db-instance-from-db-snapshot --db-instance-identifier $(terraform output --raw rds_instance_id) --db-snapshot-identifier $(terraform output --raw rds_snapshot_id)
+    eval $(terraform output -raw rds_restore_cmd)
     ```
 
 - For EBS Storage is based on Velero.
@@ -116,13 +120,6 @@ Additionally, the following is required:
     ```sh
     eval $(terraform output --raw velero_restore_team_cd)
     ```
-
-- EFS Storage is protected in [AWS Backup](https://aws.amazon.com/backup/) with a regular Backup Plan. Additional On-Demand Backup can be created. Restore can be performed and item level (Access Points) or full restore.
- - Protected Resource
-
-   ```sh
-   eval $(terraform output --raw aws_backup_efs_protected_resource) | . jq
-   ```
 
  - EFS Access point (they match with CloudBees CI `pvc`)
 

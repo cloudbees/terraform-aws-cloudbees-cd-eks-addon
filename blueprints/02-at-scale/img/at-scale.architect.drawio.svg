@@ -129,15 +129,6 @@
     <linearGradient
        inkscape:collect="always"
        xlink:href="#mx-gradient-60a337-1-277116-1-s-0"
-       id="linearGradient87"
-       x1="431.72"
-       y1="100"
-       x2="431.72"
-       y2="40"
-       gradientUnits="userSpaceOnUse" />
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#mx-gradient-60a337-1-277116-1-s-0"
        id="linearGradient88"
        x1="330"
        y1="100"
@@ -606,6 +597,8 @@
 
 
 
+
+
                                 Gateway
                             </xhtml:div>
             </xhtml:div>
@@ -654,6 +647,8 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 Route 53
                                 <xhtml:br />
+
+
 
 
 
@@ -716,6 +711,8 @@
 
 
 
+
+
                                     gp3
                                     <xhtml:br />
 </xhtml:font>
@@ -771,6 +768,8 @@
 
 
 
+
+
                                 Manager
                             </xhtml:div>
             </xhtml:div>
@@ -821,6 +820,8 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 Application Load
                                 <xhtml:br />
+
+
 
 
 
@@ -925,6 +926,8 @@
 
 
 
+
+
                                 Gateway
                             </xhtml:div>
             </xhtml:div>
@@ -973,6 +976,8 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 K8s Cluster
                                 <xhtml:br />
+
+
 
 
 
@@ -1077,6 +1082,8 @@
 
 
 
+
+
                                 Gateway
                             </xhtml:div>
             </xhtml:div>
@@ -1171,6 +1178,8 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 NAT
                                 <xhtml:br />
+
+
 
 
 
@@ -1322,6 +1331,8 @@
 
 
 
+
+
                                 Group
                             </xhtml:div>
             </xhtml:div>
@@ -1388,6 +1399,8 @@
 
 
 
+
+
                                     gp3
                                     <xhtml:br />
 </xhtml:font>
@@ -1447,6 +1460,8 @@
 
 
 
+
+
                                     gp3
                                     <xhtml:br />
 </xhtml:font>
@@ -1462,52 +1477,6 @@
            font-size="12px"
            text-anchor="middle"
            id="text73">EBS...</text>
-      </switch>
-    </g>
-    <path
-       d="m 431.72,40 h 60 v 60 h -60 z"
-       fill="url(#mx-gradient-60a337-1-277116-1-s-0)"
-       stroke="none"
-       pointer-events="all"
-       id="path74"
-       style="fill:url(#linearGradient87)" />
-    <path
-       d="m 472.21,70.31 c 0.38,2.6 -0.27,5.2 -1.85,7.31 -1.57,2.1 -3.87,3.47 -6.47,3.85 -0.48,0.07 -0.96,0.11 -1.44,0.11 -2.11,0 -4.15,-0.67 -5.86,-1.95 -2.5,-1.86 -3.94,-4.72 -3.97,-7.84 l 1.72,-0.01 c 0.02,2.58 1.21,4.93 3.27,6.47 1.74,1.3 3.88,1.84 6.03,1.53 2.15,-0.32 4.05,-1.45 5.35,-3.19 1.3,-1.74 1.84,-3.88 1.53,-6.03 -0.32,-2.15 -1.45,-4.05 -3.19,-5.35 -3.05,-2.27 -7.54,-1.94 -10.47,0.5 h 1.43 v 1.71 l -3.43,0.01 v 0 c -0.22,0 -0.44,-0.09 -0.6,-0.25 -0.16,-0.16 -0.25,-0.38 -0.25,-0.61 v -3.42 h 1.71 v 1.29 c 1.43,-1.2 3.2,-2.03 5.12,-2.34 2.7,-0.44 5.44,0.19 7.51,1.74 2.11,1.57 3.48,3.87 3.86,6.47 m 1.51,15.12 c -0.39,0 -0.79,0.05 -1.17,0.16 l -2.43,-3.25 -1.37,1.03 2.26,3.01 c -0.74,0.59 -1.3,1.43 -1.49,2.48 h -15.59 c -0.17,-1.08 -0.68,-1.94 -1.43,-2.54 l 2.19,-2.95 -1.37,-1.02 -2.41,3.23 c -0.37,-0.09 -0.76,-0.15 -1.19,-0.15 -0.37,0 -0.71,0.04 -1.04,0.11 l -4.99,-16.67 c 0.76,-0.26 1.36,-0.71 1.8,-1.32 l 3.92,1.53 0.62,-1.59 -3.86,-1.52 c 0.07,-0.35 0.12,-0.71 0.12,-1.11 0,-0.94 -0.22,-1.76 -0.63,-2.42 l 12.93,-9.05 c 0.58,0.58 1.35,0.96 2.27,1.11 v 4.36 h 1.72 V 54.5 c 0.93,-0.14 1.71,-0.52 2.28,-1.09 l 12.88,9.13 c -0.37,0.65 -0.59,1.43 -0.59,2.32 0,0.36 0.05,0.72 0.14,1.08 l -3.89,1.55 0.64,1.59 3.98,-1.59 c 0.51,0.7 1.27,1.25 2.23,1.5 l -6.27,16.46 c -0.09,0 -0.17,-0.02 -0.26,-0.02 m 0,6.86 c -1.68,0 -2.57,-0.89 -2.57,-2.58 0,-1.61 1.31,-2.57 2.57,-2.57 1.66,0 2.57,0.92 2.57,2.57 0,1.69 -0.89,2.58 -2.57,2.58 m -24,0 c -1.63,0 -2.57,-0.94 -2.57,-2.58 0,-1.65 0.91,-2.56 2.57,-2.56 2.12,0 2.57,1.39 2.57,2.56 0,1.66 -0.91,2.58 -2.57,2.58 M 439.43,64.86 c 0,-1.66 0.92,-2.57 2.58,-2.57 1.65,0 2.57,0.91 2.57,2.57 0,1.68 -0.89,2.57 -2.57,2.57 -1.71,0 -2.58,-0.87 -2.58,-2.57 m 22.29,-17.15 c 1.68,0 2.57,0.89 2.57,2.58 0,1.67 -0.89,2.56 -2.57,2.56 -1.66,0 -2.57,-0.91 -2.57,-2.56 0,-1.66 0.91,-2.58 2.57,-2.58 m 19.71,14.58 c 1.66,0 2.58,0.91 2.58,2.57 0,1.65 -0.92,2.57 -2.58,2.57 -1.67,0 -2.57,-1.33 -2.57,-2.57 0,-1.64 0.94,-2.57 2.57,-2.57 m 4.29,2.57 c 0,-2.61 -1.68,-4.29 -4.29,-4.29 -0.97,0 -1.82,0.25 -2.51,0.71 l -13.18,-9.35 c 0.17,-0.49 0.27,-1.04 0.27,-1.64 0,-2.65 -1.65,-4.29 -4.29,-4.29 -2.6,0 -4.29,1.68 -4.29,4.29 0,0.59 0.1,1.14 0.27,1.63 l -13.26,9.29 c -0.67,-0.41 -1.49,-0.64 -2.43,-0.64 -2.61,0 -4.29,1.68 -4.29,4.29 0,2.63 1.63,4.27 4.26,4.28 l 5.11,17.07 c -1.04,0.73 -1.66,1.95 -1.66,3.5 0,2.61 1.69,4.29 4.29,4.29 2.3,0 3.88,-1.32 4.21,-3.43 h 15.58 c 0.33,2.11 1.91,3.43 4.21,3.43 2.6,0 4.29,-1.68 4.29,-4.29 0,-1.87 -0.88,-3.25 -2.34,-3.89 l 6.37,-16.73 c 2.25,-0.25 3.68,-1.84 3.68,-4.23"
-       fill="#ffffff"
-       stroke="none"
-       pointer-events="all"
-       id="path75" />
-    <g
-       transform="translate(-0.5,-0.5)"
-       id="g75">
-      <switch
-         id="switch75">
-        <foreignObject
-           pointer-events="none"
-           width="100%"
-           height="100%"
-           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
-           style="overflow: visible; text-align: left;">
-          <xhtml:div
-             style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 107px; margin-left: 462px;">
-            <xhtml:div
-               data-drawio-colors="color: #232F3E; "
-               style="box-sizing: border-box; font-size: 0px; text-align: center;">
-              <xhtml:div
-                 style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
-                                AWS Backup
-                            </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
-           x="462"
-           y="119"
-           fill="#232f3e"
-           font-family="Helvetica"
-           font-size="12px"
-           text-anchor="middle"
-           id="text75">AWS Backup</text>
       </switch>
     </g>
     <path
@@ -1565,55 +1534,6 @@
        stroke="none"
        pointer-events="all"
        id="rect77" />
-    <path
-       d="m 1050.42,682.79772 c -0.25,-0.22 -0.54,-0.39 -0.85,-0.51 -1.8,-15.95 -15.39,-28.26 -31.6,-28.26 -7.31,0 -14.45,2.54 -20.1,7.15 -7.46,6.07 -11.73,15.07 -11.73,24.68 0,0.07 0,0.14 0,0.21 -1.14,0.58 -2.35,1.13 -3.55,1.65 -3.66,1.6 -6.3,2.76 -6.7,4.84 -0.09,0.53 -0.11,1.57 0.9,2.58 1.77,1.77 5.18,2.41 8.65,2.41 1.44,0 2.89,-0.11 4.23,-0.29 2.3,-0.32 6.58,-1.16 9.49,-3.29 4.59,-3.32 14.96,-4.56 20.36,-4.14 3.22,0.24 7.12,1.93 10.25,3.29 2.4,1.04 4.29,1.86 5.77,2.07 2.04,0.28 5.37,-0.06 8.9,-0.42 l 0.3,-0.03 c 0.92,-0.1 1.83,-0.19 2.72,-0.26 0.37,-0.04 0.74,-0.06 1.22,-0.1 1.51,-0.1 2.69,-1.37 2.69,-2.87 v -6.56 c 0,-0.82 -0.34,-1.6 -0.95,-2.15 z m -32.45,-25.34 c 14.34,0 26.38,10.78 28.15,24.82 -0.49,0.05 -1.01,0.1 -1.56,0.15 l -0.32,0.03 c -0.04,-1.57 -1.33,-2.85 -2.91,-2.85 h -1.22 c -3.77,-11.09 -14.69,-18.74 -27.06,-18.74 -4.58,0 -9.06,1.05 -13.09,3.04 0.03,-0.02 0.05,-0.05 0.08,-0.07 5.04,-4.12 11.4,-6.38 17.93,-6.38 z m 17.62,27.92 v -2.34 h 5.23 v 2.34 z m -46.38,8.48 c -4.54,0.62 -8.12,0.07 -9.61,-0.85 0.9,-0.64 2.93,-1.52 4.36,-2.15 1.24,-0.54 2.49,-1.11 3.7,-1.72 1.98,1.51 4.43,2.64 7.14,3.31 -1.57,0.63 -3.51,1.13 -5.59,1.41 z m 58.74,-2.86 c -0.27,0.02 -0.54,0.04 -0.8,0.07 -0.89,0.07 -1.83,0.16 -2.77,0.26 l -0.29,0.03 c -3.02,0.31 -6.45,0.66 -8.07,0.44 -1.02,-0.15 -2.9,-0.96 -4.88,-1.82 -3.37,-1.46 -7.57,-3.28 -11.36,-3.57 -5.22,-0.4 -14.23,0.58 -20.05,3.31 -3.36,-0.15 -6.48,-1.06 -8.9,-2.55 -0.01,-0.47 -0.02,-0.93 -0.02,-1.11 0,-7.09 3.32,-13.73 9.12,-18.25 3.93,-2.3 8.47,-3.51 13.12,-3.51 10.48,0 19.79,6.19 23.42,15.31 h -1.39 c -1.4,0 -2.56,0.99 -2.85,2.3 -0.24,-0.09 -0.45,-0.17 -0.71,-0.27 -3.47,-1.34 -8.24,-3.17 -13.76,-2.85 -8.06,0.48 -12.02,0.96 -15.15,1.85 l 0.95,3.3 c 2.85,-0.82 6.62,-1.27 14.41,-1.73 4.76,-0.27 9.14,1.4 12.32,2.63 0.68,0.26 1.29,0.49 1.87,0.7 v 0.35 c 0,1.61 1.31,2.92 2.92,2.92 h 6.25 c 1.6,0 2.91,-1.31 2.92,-2.91 l 0.6,-0.06 c 1.02,-0.09 1.95,-0.18 2.73,-0.25 l 0.37,-0.04 z"
-       fill="#bf0816"
-       stroke="none"
-       pointer-events="all"
-       id="path78" />
-    <g
-       transform="translate(27.499987,23.530166)"
-       id="g78">
-      <switch
-         id="switch78">
-        <foreignObject
-           pointer-events="none"
-           width="100%"
-           height="100%"
-           requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"
-           style="overflow: visible; text-align: left;">
-          <xhtml:div
-             style="display: flex; align-items: unsafe flex-start; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 691px; margin-left: 994px;">
-            <xhtml:div
-               data-drawio-colors="color: #232F3E; "
-               style="box-sizing: border-box; font-size: 0px; text-align: center;">
-              <xhtml:div
-                 style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
-                <xhtml:span
-                   style="background-color: rgb(255, 255, 255);">
-                                    Instance
-                                    <xhtml:br />
-
-
-
-
-
-                                    Profile
-                                </xhtml:span>
-              </xhtml:div>
-            </xhtml:div>
-          </xhtml:div>
-        </foreignObject>
-        <text
-           x="994"
-           y="703"
-           fill="#232f3e"
-           font-family="Helvetica"
-           font-size="12px"
-           text-anchor="middle"
-           id="text78">Instance...</text>
-      </switch>
-    </g>
     <path
        d="m 618.76,510 h 57.97 v 57.97 h -57.97 z"
        fill="#ed7100"
@@ -1784,6 +1704,8 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 Autoscaling
                                 <xhtml:br />
+
+
 
 
 
@@ -1983,6 +1905,8 @@
                  style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(35, 47, 62); line-height: 1.2; pointer-events: all; white-space: nowrap;">
                                 Autoscaling
                                 <xhtml:br />
+
+
 
 
 
