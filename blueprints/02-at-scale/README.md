@@ -44,6 +44,8 @@ A initial license is required to use CloudBees CD. Please refer to the [CloudBee
 |------|-------------|
 | acm_certificate_arn | ACM certificate ARN |
 | cbcd_helm | Helm configuration for CloudBees CD Add-on. It is accesible only via state files. |
+| cbcd_ing | CD Ingress for the CloudBees CI add-on. |
+| cbcd_liveness_probe_int | CD service internal liveness probe for the CloudBees CD add-on. |
 | cbcd_namespace | Namespace for CloudBees CD Add-on. |
 | cbcd_password | command to get the admin password of Cloudbees CD |
 | cbcd_url | URL of the CloudBees CD Operations Center for CloudBees CD Add-on. |
