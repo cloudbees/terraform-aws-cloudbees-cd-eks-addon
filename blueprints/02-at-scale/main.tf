@@ -7,7 +7,7 @@ data "aws_availability_zones" "available" {}
 locals {
 
   name   = var.suffix == "" ? "cbcd-bp02" : "cbcd-bp02-${var.suffix}"
-  region = "us-east-1"
+  region = "us-east-2"
 
   db_user_name = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_USER
   db_password  = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_PASSWORD

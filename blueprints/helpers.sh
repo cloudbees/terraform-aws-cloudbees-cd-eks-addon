@@ -30,6 +30,10 @@ probes-common () {
   eval "$(get-tf-output "$ROOT" kubeconfig_export)"
   until [ "$(eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" | awk '{ print $3 }' | grep -v STATUS | grep -v -c Running)" == 0 ]; do sleep 10 && echo "Waiting for CD Server Pod to get ready..."; done ;\
     eval "$(get-tf-output "$ROOT" cbcd_flowserver_pod)" && printf "$MSG_INFO" "CD Server Pod is Ready."
+  until eval "$(tf-output "$ROOT" cbcd_liveness_probe_int)"; do sleep $wait && echo "Waiting for CD Service to pass Health Check from inside the cluster..."; done
+    echo "CD Server passed Health Check inside the cluster." ;\
+  until eval "$(tf-output "$ROOT" cbcd_ing)"; do sleep $wait && echo "Waiting for CD Ingress to get ready..."; done ;\
+    echo "CD Ingress Ready."
   CD_URL=$(get-tf-output "$ROOT" cbcd_url)
 }
 

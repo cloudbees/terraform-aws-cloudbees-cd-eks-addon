@@ -30,3 +30,12 @@ output "cbcd_flowserver_pod" {
   value       = "kubectl get pods -l app=flow-server -n ${helm_release.cloudbees_cd.namespace}"
 }
 
+output "cbcd_ing" {
+  description = "Ingress for the CloudBees CD add-on."
+  value       = "kubectl get ing -n ${helm_release.cloudbees_cd.namespace} flow-ingress"
+}
+
+output "cbcd_liveness_probe_int" {
+  description = "CD service internal liveness probe for the CloudBees CD add-on."
+  value       = "kubectl exec -n ${helm_release.cloudbees_cd.namespace} -ti $(kubectl get pods -l app=flow-server  -n ${helm_release.cloudbees_cd.namespace} --output=jsonpath={.items..metadata.name}) --container flow-server -- /opt/cbflow/health-check > /dev/null"
+}
