@@ -16,6 +16,9 @@ This [AWS Partner Addon](https://aws-ia.github.io/terraform-aws-eks-blueprints-a
 - Encapsulating the Deployment of [CloudBees CD Modern in AWS EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/) into a Terraform module.
 - Providing a series of [Blueprints](blueprints) implementing the mentioned CloudBees CD Addon module on top of [AWS Terraform EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
 
+## CD License
+You'll need a valid license to operate the Cloudbees CD server. By default the product use the Server License type. Please visit the [CloudBees CD Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
+
 ## Usage
 
 There are examples of implementation included in the [blueprint](blueprints) folder but the simplest example of usage is as follows:

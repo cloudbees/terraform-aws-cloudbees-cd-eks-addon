@@ -11,9 +11,6 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 > [!TIP]
 > A [Resource Group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is added to get a full list with all resources created by this blueprint.
 
-## CD License
-This blueprint comes with an initial license that allows for a maximum of 2 concurrent job steps. Please visit the [CloudBees CD Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
-
 ## Architecture
 
 ![Architecture](img/getting-started.architect.drawio.svg)
