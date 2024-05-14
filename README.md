@@ -16,6 +16,9 @@ This [AWS Partner Addon](https://aws-ia.github.io/terraform-aws-eks-blueprints-a
 - Encapsulating the Deployment of [CloudBees CD Modern in AWS EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/) into a Terraform module.
 - Providing a series of [Blueprints](blueprints) implementing the mentioned CloudBees CD Addon module on top of [AWS Terraform EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
 
+## CD License
+You'll need a valid license to operate the Cloudbees CD server. By default the product use the Server License type. Please visit the [CloudBees CD Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
+
 ## Usage
 
 There are examples of implementation included in the [blueprint](blueprints) folder but the simplest example of usage is as follows:
@@ -87,6 +90,8 @@ The main components of CloudBees CD, use a file system to persist data. Data is 
 |------|-------------|
 | cbcd_domain_name | Route 53 Domain Name to host CloudBees CD Services. |
 | cbcd_flowserver_pod | Flow Server Pod for CloudBees CD Add-on. |
+| cbcd_ing | Ingress for the CloudBees CD add-on. |
+| cbcd_liveness_probe_int | CD service internal liveness probe for the CloudBees CD add-on. |
 | cbcd_namespace | Namespace for CloudBees CD Addon. |
 | cbcd_password | Command to get the admin password of Cloudbees CD |
 | cbcd_url | URL for CloudBees CD Add-on. |

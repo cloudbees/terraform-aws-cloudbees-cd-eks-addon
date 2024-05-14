@@ -7,7 +7,7 @@ data "aws_availability_zones" "available" {}
 locals {
 
   name   = var.suffix == "" ? "cbcd-bp02" : "cbcd-bp02-${var.suffix}"
-  region = "us-east-1"
+  region = "us-east-2"
 
   db_user_name = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_USER
   db_password  = yamldecode(file("k8s/flow_db_secrets-values.yml")).DB_PASSWORD
@@ -25,6 +25,27 @@ locals {
   #https://docs.cloudbees.com/docs/cloudbees-common/latest/supported-platforms/cloudbees-cd-k8s#_supported_kubernetes_versions
   k8s_version = "1.28"
 
+  #https://docs.aws.amazon.com/eks/latest/userguide/choosing-instance-type.html
+  mng = {
+    common_apps = {
+      instance_types = ["m5.8xlarge"]
+    }
+    cbcd_apps = {
+      instance_types = ["m5.8xlarge"]
+      taints = {
+        key    = "dedicated"
+        value  = "cb-apps"
+        effect = "NO_SCHEDULE"
+      }
+      labels = {
+        ci_type = "cb-apps"
+      }
+    }
+    agents = {
+      instance_types = ["m5.4xlarge"]
+    }
+  }
+
   route53_zone_id  = data.aws_route53_zone.this.id
   route53_zone_arn = data.aws_route53_zone.this.arn
   #Number of AZs per region https://docs.aws.amazon.com/ram/latest/userguide/working-with-az-ids.html
@@ -35,86 +56,12 @@ locals {
     "tf-repository" = "github.com/cloudbees/terraform-aws-cloudbees-cd-eks-addon"
   })
 
+  #s3 application prefixes
   velero_s3_backup_location = "${module.cbcd_s3_bucket.s3_bucket_arn}/velero"
   velero_bk_demo            = "team-cd-bk"
 
   rds_instance_id = "flow-db-${random_string.dbsuffix.result}"
   rds_snapshot_id = "flow-db-snapshot-${random_string.dbsuffix.result}"
-}
-
-################################################################################
-# EKS: RDS
-################################################################################
-
-module "db" {
-  source = "terraform-aws-modules/rds/aws"
-
-  identifier = local.rds_instance_id
-
-  # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
-  engine               = "postgres"
-  engine_version       = "14"
-  family               = "postgres14" # DB parameter group
-  major_engine_version = "14"         # DB option group
-  instance_class       = "db.t4g.large"
-
-  allocated_storage     = 20
-  max_allocated_storage = 100
-
-  # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
-  # "Error creating DB Instance: InvalidParameterValue: MasterUsername
-  # user cannot be used as it is a reserved word used by the engine"
-  db_name                     = "flow"
-  username                    = local.db_user_name
-  password                    = local.db_password
-  manage_master_user_password = false
-  port                        = 5432
-
-  # setting manage_master_user_password_rotation to false after it
-  # has been set to true previously disables automatic rotation
-  manage_master_user_password_rotation              = true
-  master_user_password_rotate_immediately           = false
-  master_user_password_rotation_schedule_expression = "rate(15 days)"
-
-  multi_az               = true
-  db_subnet_group_name   = module.vpc.database_subnet_group
-  vpc_security_group_ids = [module.security_group.security_group_id]
-
-  maintenance_window              = "Mon:00:00-Mon:03:00"
-  backup_window                   = "03:00-06:00"
-  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
-  create_cloudwatch_log_group     = true
-
-  backup_retention_period = 1
-  skip_final_snapshot     = true
-  deletion_protection     = false
-
-  performance_insights_enabled          = true
-  performance_insights_retention_period = 7
-  create_monitoring_role                = true
-  monitoring_interval                   = 60
-  monitoring_role_name                  = "psql-monitoring-role-name"
-  monitoring_role_use_name_prefix       = true
-  monitoring_role_description           = "Description for monitoring role"
-
-  parameters = [
-    {
-      name  = "autovacuum"
-      value = 1
-    },
-    {
-      name  = "client_encoding"
-      value = "utf8"
-    }
-  ]
-
-  tags = local.tags
-  db_option_group_tags = {
-    "Sensitive" = "low"
-  }
-  db_parameter_group_tags = {
-    "Sensitive" = "low"
-  }
 }
 
 ################################################################################
@@ -294,18 +241,80 @@ module "eks" {
   }
 
   eks_managed_node_groups = {
-    mg_start = {
-      node_group_name = "managed-start"
-      instance_types  = ["m5d.4xlarge"]
+    mg_k8sApps = {
+      node_group_name = "mg-k8s-apps"
+      instance_types  = local.mng["common_apps"]["instance_types"]
       capacity_type   = "ON_DEMAND"
-      disk_size       = 25
-      desired_size    = 2
+      min_size        = 1
+      max_size        = 3
+      desired_size    = 1
+    }
+    mg_cbApps = {
+      node_group_name = "mng-cb-apps"
+      instance_types  = local.mng["cbcd_apps"]["instance_types"]
+      capacity_type   = "ON_DEMAND"
+      min_size        = 1
+      max_size        = 6
+      desired_size    = 1
+      taints          = [local.mng["cbcd_apps"]["taints"]]
+      labels          = local.mng["cbcd_apps"]["labels"]
+    }
+    mg_cbAgents = {
+      node_group_name = "mng-agent"
+      instance_types  = local.mng["agents"]["instance_types"]
+      capacity_type   = "ON_DEMAND"
+      min_size        = 1
+      max_size        = 3
+      desired_size    = 1
+      taints          = [{ key = "dedicated", value = "build-linux", effect = "NO_SCHEDULE" }]
+      labels = {
+        ci_type = "build-linux"
+      }
     }
   }
 
   create_cloudwatch_log_group = false
 
   tags = local.tags
+}
+
+# Storage Classes
+
+resource "kubernetes_annotations" "gp2" {
+  api_version = "storage.k8s.io/v1"
+  kind        = "StorageClass"
+  # This is true because the resources was already created by the ebs-csi-driver addon
+  force = "true"
+
+  metadata {
+    name = "gp2"
+  }
+
+  annotations = {
+    "storageclass.kubernetes.io/is-default-class" = "false"
+  }
+}
+
+resource "kubernetes_storage_class_v1" "gp3" {
+  metadata {
+    name = "gp3"
+
+    annotations = {
+      "storageclass.kubernetes.io/is-default-class" = "true"
+    }
+  }
+
+  storage_provisioner    = "ebs.csi.aws.com"
+  allow_volume_expansion = true
+  reclaim_policy         = "Delete"
+  volume_binding_mode    = "WaitForFirstConsumer"
+
+  parameters = {
+    encrypted = "true"
+    fsType    = "ext4"
+    type      = "gp3"
+  }
+
 }
 
 resource "kubernetes_storage_class_v1" "efs" {
@@ -339,6 +348,81 @@ resource "null_resource" "create_kubeconfig" {
 
   provisioner "local-exec" {
     command = "aws eks update-kubeconfig --name ${module.eks.cluster_name} --region ${local.region} --kubeconfig ${local.kubeconfig_file_path}"
+  }
+}
+
+################################################################################
+# Database: RDS
+################################################################################
+
+module "db" {
+  source = "terraform-aws-modules/rds/aws"
+
+  identifier = local.rds_instance_id
+
+  # All available versions: https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_PostgreSQL.html#PostgreSQL.Concepts
+  engine               = "postgres"
+  engine_version       = "14"
+  family               = "postgres14" # DB parameter group
+  major_engine_version = "14"         # DB option group
+  instance_class       = "db.t4g.large"
+
+  allocated_storage     = 20
+  max_allocated_storage = 100
+
+  # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
+  # "Error creating DB Instance: InvalidParameterValue: MasterUsername
+  # user cannot be used as it is a reserved word used by the engine"
+  db_name                     = "flow"
+  username                    = local.db_user_name
+  password                    = local.db_password
+  manage_master_user_password = false
+  port                        = 5432
+
+  # setting manage_master_user_password_rotation to false after it
+  # has been set to true previously disables automatic rotation
+  manage_master_user_password_rotation              = true
+  master_user_password_rotate_immediately           = false
+  master_user_password_rotation_schedule_expression = "rate(15 days)"
+
+  multi_az               = true
+  db_subnet_group_name   = module.vpc.database_subnet_group
+  vpc_security_group_ids = [module.security_group.security_group_id]
+
+  maintenance_window              = "Mon:00:00-Mon:03:00"
+  backup_window                   = "03:00-06:00"
+  enabled_cloudwatch_logs_exports = ["postgresql", "upgrade"]
+  create_cloudwatch_log_group     = true
+
+  backup_retention_period = 1
+  skip_final_snapshot     = true
+  deletion_protection     = false
+
+  performance_insights_enabled          = true
+  performance_insights_retention_period = 7
+  create_monitoring_role                = true
+  monitoring_interval                   = 60
+  monitoring_role_name                  = "psql-monitoring-role-name"
+  monitoring_role_use_name_prefix       = true
+  monitoring_role_description           = "Description for monitoring role"
+
+  parameters = [
+    {
+      name  = "autovacuum"
+      value = 1
+    },
+    {
+      name  = "client_encoding"
+      value = "utf8"
+    }
+  ]
+
+  tags = local.tags
+  db_option_group_tags = {
+    "Sensitive" = "low"
+  }
+  db_parameter_group_tags = {
+    "Sensitive" = "low"
   }
 }
 
