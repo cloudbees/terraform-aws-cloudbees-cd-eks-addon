@@ -1,32 +1,35 @@
-# CloudBees CD Add-on at scale Blueprint
+# CloudBees CD/RO blueprint add-on: At scale
 
-Once you have familiarized yourself with the [Getting Started blueprint](../01-getting-started/README.md), this one presents a scalable architecture and configuration by adding:
+Once you have familiarized yourself with the [CloudBees CD/RO blueprint: Get started](../01-getting-started/README.md), this blueprint presents a scalable architecture and configuration by adding:
 
-- An [RDS](https://aws.amazon.com/rds/) that can be used by Cloudbees CD as database server. 
-- An [EFS Drive](https://aws.amazon.com/efs/) that can be used by Cloudbees CD for cluster setup. It is managed by [AWS Backup](https://aws.amazon.com/backup/) for Backup and Restore.
-- An [s3 Bucket](https://aws.amazon.com/s3/) to store assets from applications like Velero.
-- [EKS Managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) for Cloudbees CD application.
-- The following **[Amazon EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/)**:
-  - EKS Managed node groups are watched by [Cluster Autoscaler](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/cluster-autoscaler/) to accomplish [CloudBees auto-scaling nodes on EKS](https://docs.cloudbees.com/docs/cloudbees-ci/latest/cloud-admin-guide/eks-auto-scaling-nodes) on defined EKS Managed node groups.
-  - [EFS CSI Driver](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/aws-efs-csi-driver/) to connect EFS Drive to the EKS Cluster.
-  - The [Metrics Server](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/metrics-server/) is required by CBCD for Horizontal Pod Autoscaling.
-  - [Velero](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/velero/) for Backup and Restore of Kubernetes Resources and Volumen snapshot (EBS compatible only).
+- An [RDS](https://aws.amazon.com/rds/) that can be used by CloudBees CD/RO as database server. 
+- An [Amazon Elastic File System (Amazon EFS) drive](https://aws.amazon.com/efs/) that can be used by CloudBees CD/RO for cluster setup. It is managed by [Amazon Web Services (AWS) Backup](https://aws.amazon.com/backup/) for backup and restore.
+- An [Amazon S3 bucket](https://aws.amazon.com/s3/) to store assets from applications, such as Velero.
+- [Amazon Elastic Kubernetes Service (Amazon EKS) managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) for CloudBees CD/RO applications.
+- The following [Amazon EKS blueprints add-ons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/):
+
+  | Amazon EKS blueprints add-ons | Description |
+  |-------------------------------|-------------|
+  | [AWS EFS CSI Driver](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/aws-efs-csi-driver/)| Connects the Amazon EFS drive to the Amazon EKS cluster. |
+  | [Cluster Autoscaler](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/cluster-autoscaler/) | Watches Amazon EKS managed node groups to accomplish CloudBees CD/RO auto-scaling nodes on EKS. |
+  | [Metrics Server](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/metrics-server/) | This is required by CloudBees CD/RO for horizontal pod autoscaling.|
+  | [Velero](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/velero/)| Backs up and restores Kubernetes resources and volume snapshots. It is only compatible with Amazon Elastic Block Store (Amazon EBS).|
 
 > [!TIP]
-> A [Resource Group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is added to get a full list with all resources created by this blueprint.
+> A [resource group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is also included, to get a full list of all resources created by this blueprint.
 
-## CD License
-A initial license is required to use CloudBees CD. Please refer to the [CloudBees CD Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
+## CloudBees CD/RO license
+A license is required to use CloudBees CD/RO. Please refer to [CloudBees CD/RO Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
 
 ## Architecture
 
 ![Architecture](img/at-scale.architect.drawio.svg)
 
-### Kubernetes Cluster
+### Kubernetes cluster
 
 ![Architecture](img/at-scale.k8s.drawio.svg)
 
-## Terraform Docs
+## Terraform documentation
 
 <!-- BEGIN_TF_DOCS -->
 ### Inputs
@@ -66,64 +69,82 @@ A initial license is required to use CloudBees CD. Please refer to the [CloudBee
 | vpc_arn | VPC ID |
 <!-- END_TF_DOCS -->
 
-## Deploy
+~~## Deploy
 
-Refer to the [Getting Started Blueprint - Deploy](../01-getting-started/README.md#deploy) section.
+When preparing to deploy, you must complete the following steps:
 
-Additionally, the following is required:
+1. Customize your Terraform values by copying `.auto.tfvars.example` to `.auto.tfvars`.
+1. Customize your secrets file by copying `flow_db_secrets-values.yml.example` to `flow_db_secrets-values.yml`.
+1. If using the Terraform variable `suffix` for this blueprint, the Amazon `S3 Bucket Access settings` > `S3 Bucket Name` must be updated.
+1. Initialize the root module and any associated configuration for providers.
+1. Create the resources and deploy CloudBees CD/RO to an EKS cluster. Refer to [Amazon EKS Blueprints for Terraform - Deploy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#deploy).
 
-- Customize your secrets file by copying `flow_db_secrets-values.yml.example` to `flow_db_secrets-values.yml`.
-- In the case of using the terraform variable `suffix` for this blueprint, the Amazon `S3 Bucket Access settings` > `S3 Bucket Name` requires to be updated
+For more information, refer to [The Core Terraform Workflow](https://www.terraform.io/intro/core-workflow) documentation.
 
 ## Validate
 
-### CBCD
-- Once propagation is ready, it is possible to access the CloudBees CD by copying the outcome of the below command in your browser.
+Once the blueprint has been deployed, you can validate it.
+
+### Kubeconfig
+
+Once the resources have been created, a `kubeconfig` file is created in the [/k8s](k8s) folder. Issue the following command to define the [KUBECONFIG](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#the-kubeconfig-environment-variable) environment variable to point to the newly generated file:
 
   ```sh
-  terraform output cbcd_url
-  ```
- - Now that you’ve installed CloudBees CD, you’ll want to see your system in action. You will need the initial admin password to log in by run the following command in your terminal:
-
-  ```sh
-  eval $(terraform output --raw cbcd_password)
+  eval $(terraform output --raw kubeconfig_export)
   ```
 
-### Backups and Restores
+If the command is successful, no output is returned.
 
-- For Database Storage is based on RDS.
+### CloudBees CD/RO
 
-  - Create a snapshot of the RDS instance.
+Once you can access the Kubernetes API from your terminal, complete the following steps.
+
+1. DNS propagation may take several minutes. Once propagation is complete, issue the following command:
+
+      ```sh
+      terraform output cbcd_url
+      ```
+1. To access CloudBees CD/RO, paste the output of the previous command into a web browser.
+1. Issue the following command to retrieve the initial administrative user password to sign in to CloudBees CD/RO:
+
+      ```sh
+      eval $(terraform output --raw cbcd_password)
+      ```
+### Back up and restore
+
+#### Back up and restore Database storage using Amazon Relational Database Service (Amazon RDS)
+
+1. Issue the following command to create a snapshot of the Amazon RDS instance:
 
     ```sh
     eval $(terraform output -raw rds_backup_cmd)
     ```
-  - Restore the RDS instance from the snapshot.
+1. Issue the following command to restore the RDS instance from the snapshot:
+
     ```sh
     eval $(terraform output -raw rds_restore_cmd)
     ```
 
-- For EBS Storage is based on Velero.
+#### Back up and restore using Velero
 
-  - Create a Velero Backup schedule for Team CD to take regular backups.
+1. Issue the following command to create a Velero backup schedule for `Team CD`:
 
     ```sh
     eval $(terraform output --raw velero_backup_schedule_team_cd)
     ```
-
-  - Velero Backup on a specific point in time for Team CD. Note also there is a scheduled backup process in place.
+1. Issue the following command to take an on-demand Velero backup for a specific point in time for `Team CD` based on the schedule definition:
 
     ```sh
     eval $(terraform output --raw velero_backup_on_demand_team_cd)
     ```
-
-  - Velero Restore process: Make any update on `team-cd` (e.g.: adding some jobs), take a backup including the update, remove the latest update (e.g.: removing the jobs) and then restore it from the last backup as follows
+   
+1. Issue the following command to restore from the last backup:
 
     ```sh
     eval $(terraform output --raw velero_restore_team_cd)
     ```
 
- - EFS Access point (they match with CloudBees CI `pvc`)
+1. Issue the following command to restore from an Amazon EFS access point, that matches the CloudBees CD/RO PVC):
 
    ```sh
    eval $(terraform output --raw efs_access_points) | . jq .AccessPoints[].RootDirectory.Path
@@ -131,4 +152,4 @@ Additionally, the following is required:
 
 ## Destroy
 
-Refer to the [Getting Started Blueprint - Destroy](../01-getting-started/README.md#destroy) section.
+To tear down and remove the resources created in the blueprint, complete the steps for [Amazon EKS Blueprints for Terraform - Destroy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#destroy).

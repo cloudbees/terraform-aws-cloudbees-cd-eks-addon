@@ -1,8 +1,8 @@
-# CloudBees CD Add-on for AWS EKS
+# CloudBees CD/RO add-on for Amazon EKS blueprints
 
 <p align="center">
   <a href="https://www.cloudbees.com/capabilities/continuous-delivery"><img alt="cloudbees-icon" src="https://images.ctfassets.net/vtn4rfaw6n2j/7FKeUjwsXI1d2JPUIvSMZJ/be286872ace9ca3b6b66a64adbb3c16a/cb-tag-sm.svg?fm=webp&q=85" height="120px" /></a>
-  <p align="center">Deploy CloudBees CD to AWS EKS Clusters with this add-on.</p>
+  <p align="center">Deploy CloudBees CD/RO to Amazon Web Services (AWS) Elastic Kubernetes Service (EKS) clusters
 </p>
 
 ---
@@ -11,17 +11,17 @@
 
 ## Motivation
 
-This [AWS Partner Addon](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/aws-partner-addons/) aims to ease the adoption and experimentation of CloudBees CD enterprise features by:
+The CloudBees CD/RO AWS add-on streamlines the adoption and experimentation of CloudBees CD/RO enterprise features by:
 
-- Encapsulating the Deployment of [CloudBees CD Modern in AWS EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/) into a Terraform module.
-- Providing a series of [Blueprints](blueprints) implementing the mentioned CloudBees CD Addon module on top of [AWS Terraform EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
+- Encapsulating the deployment of [CloudBees CD/RO in AWS EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/) into a Terraform module.
+- Providing a series of opinionated [blueprints](blueprints) that implement the CloudBees CD/RO add-on module for use with [Amazon EKS blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with the [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
 
-## CD License
-You'll need a valid license to operate the Cloudbees CD server. By default the product use the Server License type. Please visit the [CloudBees CD Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
+## CloudBees CD/RO license
+You must have a valid license to operate the CloudBees CD/RO server. By default the product use the Server License type. For more information, refer to [CloudBees CD/RO Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses).
 
 ## Usage
 
-There are examples of implementation included in the [blueprint](blueprints) folder but the simplest example of usage is as follows:
+Implementation examples are included in the [blueprint](blueprints) folder, however this is the simplest example of usage:
 
 ```terraform
 module "eks_blueprints_addon_cbcd" {
@@ -33,46 +33,42 @@ module "eks_blueprints_addon_cbcd" {
 }
 ```
 
-By default, it uses a minimum required configuration described in [values.yml](values.yml).
-
-If you would like to override any defaults with the chart, you can do so by passing the `helm_config` variable.
+By default, it uses a minimum required configuration described in the Helm chart [values.yml](values.yml). If you need to override any default settings with the chart, you can do so by passing the `helm_config` variable.
 
 > [!TIP]
-> Blueprints lifecycle (`deploy` > `validate` > `destroy`) can be orchestrated via the companion [Makefile](Makefile).
+> The blueprints lifecycle (`deploy` > `validate` > `destroy`) can be orchestrated via the companion [Makefile](Makefile).
 
 ## Prerequisites
 
 ### Tooling
 
-Blueprint `deploy` and `destroy` phases use the same tooling requirement per [AWS EKS Blueprints - Getting Started Guide - Prerequisites](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#prerequisites).
-
-Nevertheless, the Blueprint `validate` phase might require additional toolings like `jq` and `velero`.
+The blueprint `deploy` and `destroy` phases use the same requirements provided in the [AWS EKS Blueprints for Terraform - Prerequisites](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#prerequisites). However, the blueprint `validate` phase may require additional tooling, such as `jq` and `velero`.
 
 > [!NOTE]
-> There is a companion [Dockerfile](blueprints/Dockerfile) to run the blueprints in a containerized Dev environment ensuring dependecies are met. It can be built by using the [Makefile](Makefile) target `make dRun`.
+> There is a companion [Dockerfile](blueprints/Dockerfile) to run the blueprints in a containerized development environment, ensuring all dependencies are met. It can be built locally using the [Makefile](Makefile) target `make dRun`.
 
-### AWS Authentication
+### AWS authentication
 
-Make sure to export your required [AWS Environment Variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) to your CLI before getting started (eg. `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` or `AWS_PROFILE`).
+Before getting started, you must export your required [AWS Environment Variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) to your CLI before getting started (for example, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_PROFILE`).
 
-### Existing AWS Hosted Zone
+### Existing AWS 53 hosted zone
 
-These blueprints rely on an existing Hosted Zone in AWS Route53. If you don't have one, you can create one by following the [AWS Route53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html).
+These blueprints rely on an existing hosted zone in AWS Route 53. If you do not have a hosted zone, you can create one by following the [AWS Rout 53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html).
 
-## Data Storage Options
+## Data storage options
 
-The main components of CloudBees CD, use a file system to persist data. Data is stored in a couple of [places](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist) that can be configured to be stored in Amazon EBS or EFS:
+CloudBees CD/RO uses a file system to persist data. Data is stored in several [locations](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist) and configured to be stored in Amazon Elastic Block Store (Amazon EBS) or Amazon Elastic File System (Amazon EFS)
 
-- Amazon EBS volumes are scoped to a particular Availability Zone to offer high-speed, low-latency access to the EC2 instances they are connected to. If an Availability Zone fails, an EBS volume becomes inaccessible due to file corruption, or there is a service outage, the data on these volumes will become inaccessible. Operations Center and Managed Controller pods require this persistent data and have no mechanism to replicate the data, so we recommend frequent backups for Amazon EBS.
-- Amazon EFS file systems are scoped to an AWS Region and can be accessed from any Availability Zone in the Region the file system was created in. Using Amazon EFS as a storage class for the Operations Center and Managed Controller allows pods to be rescheduled successfully onto healthy nodes in the event of an Availability Zone outage. Amazon EFS file systems may increase the cost of the deployment compared to the Amazon EBS option, but provide greater fault tolerance.
+- Amazon EBS volumes are scoped to a particular availability zone to offer high-speed, low-latency access to the Amazon Elastic Compute Cloud (Amazon EC2) instances they are connected to. If an availability zone fails, an Amazon EBS volume becomes inaccessible due to file corruption, or there is a service outage, the data on these volumes becomes inaccessible. The pods require this persistent data and have no mechanism to replicate the data, so CloudBees recommends frequent backups for Amazon EBS.
+- Amazon EFS file systems are scoped to an AWS region and can be accessed from any availability zone in the region that the file system was created in. Using Amazon EFS as a storage class allows pods to be rescheduled successfully onto healthy nodes in the event of an availability zone outage. Amazon EFS is more expensive than Amazon EBS, but provides greater fault tolerance.
 
 > [!IMPORTANT]  
-> CloudBees CD clustered mode requires Amazon EFS. See [CloudBees CD EKS Storage Requirements](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist).
+> CloudBees CD/RO clustered mode requires Amazon EFS. For more information, refer to [CloudBees CD/RO EKS Storage Requirements](https://docs.cloudbees.com/docs/cloudbees-cd/latest/requirements/k8s-requirements#persist).
 
 > [!NOTE]
-> For more information on pricing, see the [Amazon EBS pricing page](https://aws.amazon.com/ebs/pricing/) and the [Amazon EFS pricing page](https://aws.amazon.com/efs/pricing/).
+> For more information on pricing and cost analysis, refer to [Amazon EBS pricing](https://aws.amazon.com/ebs/pricing/) and [Amazon EFS pricing](https://aws.amazon.com/efs/pricing/).
 
-## Terraform Docs
+## Terraform documentation
 
 <!-- BEGIN_TF_DOCS -->
 ### Inputs
@@ -82,7 +78,7 @@ The main components of CloudBees CD, use a file system to persist data. Data is 
 | cert_arn | Certificate ARN from AWS ACM | `string` | n/a | yes |
 | host_name | Route53 Host name | `string` | n/a | yes |
 | flow_db_secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_db_secret. | `string` | `"flow_db_secrets-values.yml"` | no |
-| helm_config | CloudBees CD Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
+| helm_config | CloudBees CD/RO Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
 
 ### Outputs
 
@@ -98,15 +94,12 @@ The main components of CloudBees CD, use a file system to persist data. Data is 
 | merged_helm_config | (merged) Helm Config for CloudBees CD |
 <!-- END_TF_DOCS -->
 
-## Communications
+## Additional resources
 
-Cloudbees' slack channel [#cbcd-eks-blueprints](https://cloudbees.slack.com/archives/C05NACAEM5H)
-
-## References
-
-- [CloudBees CD Docs](https://docs.cloudbees.com/docs/cloudbees-cd/latest/)
-- [CloudBees CD release notes](https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-cd/)
-- [Architecture for CloudBees CD on modern cloud platforms](https://docs.cloudbees.com/docs/cloudbees-cd/latest/architecture/cd-cloud)
+- [CloudBees CD/RO documentation](https://docs.cloudbees.com/docs/cloudbees-cd/latest/)
+- [CloudBees CD/RO release notes](https://docs.cloudbees.com/docs/release-notes/latest/cloudbees-cd/)
+- [Architecture for CloudBees CD/RO](https://docs.cloudbees.com/docs/cloudbees-cd/latest/architecture/)
 - [Amazon EKS Blueprints Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/)
-- [Amazon EKS Blueprints Patterns](https://aws-ia.github.io/terraform-aws-eks-blueprints/)
-- [Bootstrapping clusters with EKS Blueprints | Containers](https://aws.amazon.com/blogs/containers/bootstrapping-clusters-with-eks-blueprints/)
+- [Amazon EKS Blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints/)
+- [Containers: Bootstrapping clusters with EKS Blueprints](https://aws.amazon.com/blogs/containers/bootstrapping-clusters-with-eks-blueprints/)
+- [EKS Workshop](https://www.eksworkshop.com/)

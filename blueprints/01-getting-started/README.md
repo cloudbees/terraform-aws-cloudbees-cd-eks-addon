@@ -1,21 +1,22 @@
-# CloudBees CD Add-on getting started Blueprint
+# CloudBees CD/RO blueprint add-on: Get started
 
-Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/docs/cloudbees-ci/latest/eks-install-guide/) by running this blueprint which just installs the product and its [prerequisites](https://docs.cloudbees.com/docs/cloudbees-ci/latest/eks-install-guide/installing-eks-using-helm#_prerequisites) to help you understand the minimum requirements.
+Get started with the [CloudBees CD/RO on Kubernetes
+](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/)  by running this blueprint, which only installs the product and its [prerequisites](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/installation, to help you understand the minimum setup:
 
-- AWS Certificate Manager
-- **[Amazon EKS Addons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/)**:
+- Amazon Web Services (AWS) certificate manager
+- The following [Amazon EKS blueprints add-ons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/):
   - [AWS Load Balancer Controller](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/aws-load-balancer-controller/)
   - [External DNS](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/addons/external-dns/)
-  - [EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) to allocate EBS volumes for hosting Cloudbees CD.
+  - [Amazon Elastic Block Store (Amazon EBS) Container Storage Interface (CSI) driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) to allocate Amazon EBS volumes for hosting Cloudbees CD/RO.
 
 > [!TIP]
-> A [Resource Group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is added to get a full list with all resources created by this blueprint.
+> A [resource group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is added, to get a full list with all resources created by this blueprint.
 
 ## Architecture
 
 ![Architecture](img/getting-started.architect.drawio.svg)
 
-### Kubernetes Cluster
+### Kubernetes cluster
 
 ![Architecture](img/getting-started.k8s.drawio.svg)
 
@@ -48,37 +49,47 @@ Get started with the [CloudBees CD on Modern in EKS](https://docs.cloudbees.com/
 
 ## Deploy
 
-First of all, customize your terraform values by copying `.auto.tfvars.example` to `.auto.tfvars`.
+When preparing to deploy, you must complete the following steps:
 
-Initialize the root module and any associated configuration for providers and finally create the resources and deploy CloudBees CD to an EKS Cluster. Please refer to [Getting Started - Amazon EKS Blueprints for Terraform - Deploy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#deploy)
+1. Customize your Terraform values by copying `.auto.tfvars.example` to `.auto.tfvars`.
+1. Initialize the root module and any associated configuration for providers.
+1. Create the resources and deploy CloudBees CD/RO to an EKS cluster. Refer to [Amazon EKS Blueprints for Terraform - Deploy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#deploy).
 
-For more detailed information, see the documentation for the [Terraform Core workflow](https://www.terraform.io/intro/core-workflow).
+For more information, refer to [The Core Terraform Workflow](https://www.terraform.io/intro/core-workflow) documentation.
 
 ## Validate
 
-Once the resources have been created, note that a `kubeconfig` file has been created inside the respective `blueprint/k8s` folder. Start defining the Environment Variable [KUBECONFIG](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#the-kubeconfig-environment-variable) to point to the generated file.
+Once the blueprint has been deployed, you can validate it.
+
+### Kubeconfig
+
+Once the resources have been created, a `kubeconfig` file is created in the [/k8s](k8s) folder. Issue the following command to define the [KUBECONFIG](https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/#the-kubeconfig-environment-variable) environment variable to point to the newly generated file:
 
   ```sh
   eval $(terraform output --raw kubeconfig_export)
   ```
 
-Once you get access to K8s API from your terminal, validate that:
+If the command is successful, no output is returned.
 
-> [!NOTE]
-> DNS propagation can take a few minutes
+### CloudBees CD/RO
 
-- Once propagation is ready, it is possible to access the CloudBees CD by copying the outcome of the below command in your browser.
+Once you can access the Kubernetes API from your terminal, complete the following steps.
 
-  ```sh
-  terraform output cbcd_url
-  ```
+1. DNS propagation may take several minutes. Once propagation is complete, issue the following command:
 
-Now that you’ve installed CloudBees CD, you’ll want to see your system in action. You will need the initial admin password to log in by run the following command in your terminal:
+      ```sh
+      terraform output cbcd_url
+      ```
+1. To access CloudBees CD/RO, paste the output of the previous command into a web browser.
+1. Issue the following command to retrieve the initial administrative user password to sign in to CloudBees CD/RO:
 
-  ```sh
-  eval $(terraform output --raw cbcd_password)
-  ```
+      ```sh
+      eval $(terraform output --raw cbcd_password)
+      ```
 
 ## Destroy
 
-To teardown and remove the resources created in the blueprint, the typical steps of execution are as explained in [Getting Started - Amazon EKS Blueprints for Terraform - Destroy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#destroy)
+To tear down and remove the resources created in the blueprint, complete the steps for [Amazon EKS Blueprints for Terraform - Destroy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#destroy).
+
+> [!TIP]
+> The `destroy` phase can be orchestrated via the companion [Makefile](../../Makefile).
