@@ -6,6 +6,7 @@ This document provides guidelines for contributing to the CloudBees CD/RO add-on
 
 Validate your changes inside the blueprint agent, as described in [Dockerfile](blueprints/Dockerfile) For example, it can be used to run `make dBuildAndRun`.
 
+<!---
 ## Report bugs and feature requests
 
 CloudBees welcomes you to use the GitHub issue tracker to report bugs or suggest features.
@@ -42,7 +43,7 @@ To submit a pull request:
 
 > [!IMPORTANT]
 > If you make updates to embedded repository (e.g. CasC bundles), you must push the changes to the public upstream (repository/branch) before running `terraform apply` locally. The endpoint and/or branch can be updated via `set-casc-location` from the companion [Makefile](Makefile).
-
+-->
 
 ## Pre-commits: Linting, Formatting and Secrets Scanning
 
