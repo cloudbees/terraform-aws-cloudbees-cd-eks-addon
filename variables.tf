@@ -31,7 +31,7 @@ variable "cert_arn" {
 }
 
 variable "flow_db_secrets_file" {
-  description = "Secrets file a .yml path that contains the secrets names:values to create the Kubernetes secret flow_db_secret."
+  description = "Secrets file .yml path that contains the secrets names:values to create the Kubernetes secret flow_db_secret."
   default     = "flow_db_secrets-values.yml"
   type        = string
 }
