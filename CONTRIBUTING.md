@@ -27,18 +27,18 @@ When filing an issue:
 
 Contributions via pull requests are appreciated. Before submitting a pull request, please ensure that you:
 
-1. Are working against the latest source on the `main` branch.
+1. Are working against the latest source on the `develop` branch.
 1. Check existing open, and recently merged, pull requests to make sure someone else has not already addressed the problem.
 1. Open an issue to discuss any significant work; we do not want your time to be wasted.
 
 To submit a pull request:
 
 1. Fork the repository.
-1. Create a feature branch based on the `main` branch.
+1. Create a feature branch based on the `develop` branch.
 1. Modify the source and focus on the specific change you are contributing. For example, if you reformat all the code, it is hard for reviewers to focus on your specific change.
 1. **Ensure that local tests pass**. Local tests can be orchestrated via the companion [Makefile](Makefile).
 1. Make commits to your fork using clear commit messages.
-1. Submit a pull request against the `main` branch and answer any default questions in the pull request interface.
+1. Submit a pull request against the `develop` branch and answer any default questions in the pull request interface.
 1. Pay attention to any automated failures reported in the pull request, and stay involved in the conversation.
 
 > [!IMPORTANT]
