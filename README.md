@@ -17,7 +17,7 @@ The CloudBees CD/RO AWS add-on streamlines the adoption and experimentation of C
 - Providing a series of opinionated [blueprints](blueprints) that implement the CloudBees CD/RO add-on module for use with [Amazon EKS blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with the [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
 
 ## CloudBees CD/RO license
-You must have a valid license to operate the CloudBees CD/RO server. By default, CloudBees CD/RO uses the Server License type. For more information, refer to [CloudBees CD/RO Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses).
+You must have a valid license to operate the CloudBees CD/RO server. By default, CloudBees CD/RO uses the server license type. For more information, refer to [Licenses](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses).
 
 ## Usage
 
@@ -35,9 +35,6 @@ module "eks_blueprints_addon_cbcd" {
 
 By default, it uses a minimum required configuration described in the Helm chart [values.yml](values.yml). If you need to override any default settings with the chart, you can do so by passing the `helm_config` variable.
 
-> [!TIP]
-> The blueprints lifecycle (`deploy` > `validate` > `destroy`) can be orchestrated via the companion [Makefile](Makefile).
-
 ## Prerequisites
 
 ### Tooling
@@ -53,7 +50,7 @@ Before getting started, you must export your required [AWS Environment Variables
 
 ### Existing AWS 53 hosted zone
 
-These blueprints rely on an existing hosted zone in AWS Route 53. If you do not have a hosted zone, you can create one by following the [AWS Rout 53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html).
+These blueprints rely on an existing hosted zone in AWS Route 53. If you do not have a hosted zone, you can create one by following the [AWS Route 53 documentation](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-working-with.html).
 
 ## Data storage options
 

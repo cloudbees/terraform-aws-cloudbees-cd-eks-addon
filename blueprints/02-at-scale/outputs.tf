@@ -1,9 +1,9 @@
 output "kubeconfig_export" {
-  description = "Export the KUBECONFIG environment variable to access the Kubernetes API."
+  description = "Exports the KUBECONFIG environment variable to access the Kubernetes API."
   value       = "export KUBECONFIG=${local.kubeconfig_file_path}"
 }
 
-output "kubeconfig_add" {
+output "kubeconfig_asdd" {
   description = "Add kubeconfig to your local configuration to access the Kubernetes API."
   value       = "aws eks update-kubeconfig --region ${local.region} --name ${local.cluster_name}"
 }
@@ -25,7 +25,7 @@ output "cbcd_url" {
 }
 
 output "cbcd_password" {
-  description = "Retrieve the administrator password for CloudBees CD/RO."
+  description = "Retrieves the administrator password for CloudBees CD/RO."
   value       = module.eks_blueprints_addon_cbcd.cbcd_password
 }
 
@@ -45,12 +45,12 @@ output "rds_arn" {
 }
 
 output "rds_backup_cmd" {
-  description = "Perform a database backup."
+  description = "Performs a database backup."
   value       = "aws rds create-db-snapshot --db-instance-identifier ${local.rds_instance_id} --db-snapshot-identifier ${local.rds_snapshot_id}"
 }
 
 output "rds_restore_cmd" {
-  description = "Perform a database restore from a snapshot."
+  description = "Performs a database restore from a snapshot."
   value       = "aws rds restore-db-instance-from-db-snapshot --db-instance-identifier ${local.rds_instance_id} --db-snapshot-identifier ${local.rds_snapshot_id}"
 }
 

@@ -18,9 +18,6 @@ Once you have familiarized yourself with the [CloudBees CD/RO blueprint: Get sta
 > [!TIP]
 > A [resource group](https://docs.aws.amazon.com/ARG/latest/userguide/resource-groups.html) is also included, to get a full list of all resources created by this blueprint.
 
-## CloudBees CD/RO license
-A license is required to use CloudBees CD/RO. Please refer to [CloudBees CD/RO Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses) for more information.
-
 ## Architecture
 
 ![Architecture](img/at-scale.architect.drawio.svg)
@@ -69,7 +66,7 @@ A license is required to use CloudBees CD/RO. Please refer to [CloudBees CD/RO L
 | vpc_arn | VPC ID |
 <!-- END_TF_DOCS -->
 
-~~## Deploy
+## Deploy
 
 When preparing to deploy, you must complete the following steps:
 
@@ -112,7 +109,7 @@ Once you can access the Kubernetes API from your terminal, complete the followin
       ```
 ### Back up and restore
 
-#### Back up and restore Database storage using Amazon Relational Database Service (Amazon RDS)
+#### Back up and restore database storage using Amazon Relational Database Service (Amazon RDS)
 
 1. Issue the following command to create a snapshot of the Amazon RDS instance:
 
@@ -144,7 +141,7 @@ Once you can access the Kubernetes API from your terminal, complete the followin
     eval $(terraform output --raw velero_restore_team_cd)
     ```
 
-4. Issue the following command to restore from an Amazon EFS access point, that matches the CloudBees CD/RO PVC):
+4. Issue the following command to restore from an Amazon EFS access point, that matches the CloudBees CD/RO PVC:
 
    ```sh
    eval $(terraform output --raw efs_access_points) | . jq .AccessPoints[].RootDirectory.Path

@@ -54,4 +54,4 @@ Many of the files in the repository can be linted or formatted to maintain a sta
 
 ## Release Drafter
 
-This repository uses [Release Drafter](https://github.com/release-drafter/release-drafter) thus it is recommended to use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716) to ease labelling your pull request accordingly.
+This repository uses [Release Drafter](https://github.com/release-drafter/release-drafter). Therefore, it is recommended that you use [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716) to label your pull requests accordingly.

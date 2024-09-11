@@ -1,7 +1,6 @@
 # CloudBees CD/RO blueprint add-on: Get started
 
-Get started with the [CloudBees CD/RO on Kubernetes
-](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/)  by running this blueprint, which only installs the product and its [prerequisites](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/installation, to help you understand the minimum setup:
+Get started with [CloudBees CD/RO in EKS](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/) by running this blueprint, which only installs the product and its [prerequisites](https://docs.cloudbees.com/docs/cloudbees-cd/latest/install-k8s/installation), to help you understand the minimum setup:
 
 - Amazon Web Services (AWS) certificate manager
 - The following [Amazon EKS blueprints add-ons](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/):

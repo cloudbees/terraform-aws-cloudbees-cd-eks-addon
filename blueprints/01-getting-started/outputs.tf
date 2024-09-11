@@ -1,11 +1,11 @@
 
 output "kubeconfig_export" {
-  description = "Export the KUBECONFIG environment variable to access the Kubernetes API."
+  description = "Exports the KUBECONFIG environment variable to access the Kubernetes API."
   value       = "export KUBECONFIG=${local.kubeconfig_file_path}"
 }
 
 output "kubeconfig_add" {
-  description = "Add Kubeconfig to your local configuration to access the Kubernetes API."
+  description = "Adds Kubeconfig to your local configuration to access the Kubernetes API."
   value       = "aws eks update-kubeconfig --region ${local.region} --name ${local.cluster_name}"
 }
 
@@ -26,7 +26,7 @@ output "cbcd_url" {
 }
 
 output "cbcd_password" {
-  description = "Command to get the admin password for the CloudBees CD/RO add-on."
+  description = "Retrieves the admin password for the CloudBees CD/RO add-on."
   value       = module.eks_blueprints_addon_cbcd.cbcd_password
 }
 
