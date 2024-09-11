@@ -16,7 +16,7 @@ variable "hosted_zone" {
 }
 
 variable "suffix" {
-  description = "Unique suffix to assign to all resources"
+  description = "Unique suffix to assign to all resources."
   default     = ""
   type        = string
   validation {

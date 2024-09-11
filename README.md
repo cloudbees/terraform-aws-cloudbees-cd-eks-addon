@@ -17,7 +17,7 @@ The CloudBees CD/RO AWS add-on streamlines the adoption and experimentation of C
 - Providing a series of opinionated [blueprints](blueprints) that implement the CloudBees CD/RO add-on module for use with [Amazon EKS blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints-addons/main/) which are aligned with the [EKS Best Practices Guides](https://aws.github.io/aws-eks-best-practices/).
 
 ## CloudBees CD/RO license
-You must have a valid license to operate the CloudBees CD/RO server. By default the product use the Server License type. For more information, refer to [CloudBees CD/RO Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses).
+You must have a valid license to operate the CloudBees CD/RO server. By default, CloudBees CD/RO uses the Server License type. For more information, refer to [CloudBees CD/RO Licensing](https://docs.cloudbees.com/docs/cloudbees-cd/latest/set-up-cdro/licenses).
 
 ## Usage
 
