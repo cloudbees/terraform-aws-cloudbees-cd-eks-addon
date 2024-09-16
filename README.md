@@ -46,7 +46,7 @@ The blueprint `deploy` and `destroy` phases use the same requirements provided i
 
 ### AWS authentication
 
-Before getting started, you must export your required [AWS Environment Variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) to your CLI before getting started (for example, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_PROFILE`).
+Before getting started, you must export your required [AWS Environment Variables](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-envvars.html) to your CLI (for example, `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY`, and `AWS_PROFILE`).
 
 ### Existing AWS 53 hosted zone
 
@@ -75,7 +75,7 @@ CloudBees CD/RO uses a file system to persist data. Data is stored in several [l
 | cert_arn | Certificate ARN from AWS ACM | `string` | n/a | yes |
 | host_name | Route53 Host name | `string` | n/a | yes |
 | flow_db_secrets_file | Secrets file yml path containing the secrets names:values to create the Kubernetes secret flow_db_secret. | `string` | `"flow_db_secrets-values.yml"` | no |
-| helm_config | CloudBees CD/RO Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
+| helm_config | CloudBees CD Helm chart configuration | `any` | <pre>{<br>  "values": [<br>    ""<br>  ]<br>}</pre> | no |
 
 ### Outputs
 
