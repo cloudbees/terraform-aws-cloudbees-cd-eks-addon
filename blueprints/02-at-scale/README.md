@@ -71,10 +71,10 @@ Once you have familiarized yourself with the [CloudBees CD/RO blueprint: Get sta
 When preparing to deploy, you must complete the following steps:
 
 1. Customize your Terraform values by copying `.auto.tfvars.example` to `.auto.tfvars`.
-2. Customize your secrets file by copying `flow_db_secrets-values.yml.example` to `flow_db_secrets-values.yml`.
-3. If using the Terraform variable `suffix` for this blueprint, the Amazon `S3 Bucket Access settings` > `S3 Bucket Name` must be updated.
-4. Initialize the root module and any associated configuration for providers.
-5. Create the resources and deploy CloudBees CD/RO to an EKS cluster. Refer to [Amazon EKS Blueprints for Terraform - Deploy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#deploy).
+1. Customize your secrets file by copying `flow_db_secrets-values.yml.example` to `flow_db_secrets-values.yml`.
+1. If using the Terraform variable `suffix` for this blueprint, the Amazon `S3 Bucket Access settings` > `S3 Bucket Name` must be updated.
+1. Initialize the root module and any associated configuration for providers.
+1. Create the resources and deploy CloudBees CD/RO to an EKS cluster. Refer to [Amazon EKS Blueprints for Terraform - Deploy](https://aws-ia.github.io/terraform-aws-eks-blueprints/getting-started/#deploy).
 
 For more information, refer to [The Core Terraform Workflow](https://www.terraform.io/intro/core-workflow) documentation.
 
@@ -101,8 +101,8 @@ Once you can access the Kubernetes API from your terminal, complete the followin
       ```sh
       terraform output cbcd_url
       ```
-2. To access CloudBees CD/RO, paste the output of the previous command into a web browser.
-3. Issue the following command to retrieve the initial administrative user password to sign in to CloudBees CD/RO:
+1. To access CloudBees CD/RO, paste the output of the previous command into a web browser.
+1. Issue the following command to retrieve the initial administrative user password to sign in to CloudBees CD/RO:
 
       ```sh
       eval $(terraform output --raw cbcd_password)
@@ -116,7 +116,7 @@ Once you can access the Kubernetes API from your terminal, complete the followin
     ```sh
     eval $(terraform output -raw rds_backup_cmd)
     ```
-2. Issue the following command to restore the RDS instance from the snapshot:
+1. Issue the following command to restore the RDS instance from the snapshot:
 
     ```sh
     eval $(terraform output -raw rds_restore_cmd)
@@ -129,23 +129,23 @@ Once you can access the Kubernetes API from your terminal, complete the followin
     ```sh
     eval $(terraform output --raw velero_backup_schedule_team_cd)
     ```
-2. Issue the following command to take an on-demand Velero backup for a specific point in time for `Team CD` based on the schedule definition:
+1. Issue the following command to take an on-demand Velero backup for a specific point in time for `Team CD` based on the schedule definition:
 
     ```sh
     eval $(terraform output --raw velero_backup_on_demand_team_cd)
     ```
    
-3. Issue the following command to restore from the last backup:
+1. Issue the following command to restore from the last backup:
 
     ```sh
     eval $(terraform output --raw velero_restore_team_cd)
     ```
 
-4. Issue the following command to restore from an Amazon EFS access point, that matches the CloudBees CD/RO PVC:
+   1. Issue the following command to restore from an Amazon EFS access point, that matches the CloudBees CD/RO PVC:
 
-   ```sh
-   eval $(terraform output --raw efs_access_points) | . jq .AccessPoints[].RootDirectory.Path
-   ```
+      ```sh
+      eval $(terraform output --raw efs_access_points) | . jq .AccessPoints[].RootDirectory.Path
+      ```
 
 ## Destroy
 
