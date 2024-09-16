@@ -2,7 +2,7 @@
 
 Once you have familiarized yourself with the [CloudBees CD/RO blueprint: Get started](../01-getting-started/README.md), this blueprint presents a scalable architecture and configuration by adding:
 
-- An [RDS](https://aws.amazon.com/rds/) that can be used by CloudBees CD/RO as database server. 
+- An [Amazon Relational Database Service (Amazon RDS)](https://aws.amazon.com/rds/) that can be used by CloudBees CD/RO as database server. 
 - An [Amazon Elastic File System (Amazon EFS) drive](https://aws.amazon.com/efs/) that can be used by CloudBees CD/RO for cluster setup. It is managed by [Amazon Web Services (AWS) Backup](https://aws.amazon.com/backup/) for backup and restore.
 - An [Amazon S3 bucket](https://aws.amazon.com/s3/) to store assets from applications, such as Velero.
 - [Amazon Elastic Kubernetes Service (Amazon EKS) managed node groups](https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html) for CloudBees CD/RO applications.
@@ -109,7 +109,7 @@ Once you can access the Kubernetes API from your terminal, complete the followin
       ```
 ### Back up and restore
 
-#### Back up and restore database storage using Amazon Relational Database Service (Amazon RDS)
+#### Back up and restore database storage using Amazon RDS
 
 1. Issue the following command to create a snapshot of the Amazon RDS instance:
 
