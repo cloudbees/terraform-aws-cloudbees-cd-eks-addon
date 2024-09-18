@@ -6,17 +6,17 @@ variable "tags" {
 }
 
 variable "host_name" {
-  description = "Host name. CloudBees CD Apps is configured to use this host name."
+  description = "Host name. CloudBees CD/RO applications are configured to use this host name."
   type        = string
 }
 
 variable "hosted_zone" {
-  description = "Route 53 Hosted Zone. CloudBees CD is configured to use subdomains in this Hosted Zone."
+  description = "Amazon Route 53 hosted zone. CloudBees CD/RO is configured to use subdomains in this hosted zone."
   type        = string
 }
 
 variable "suffix" {
-  description = "Unique suffix to be assigned to all resources"
+  description = "Unique suffix that is assigned to all resources."
   default     = ""
   type        = string
   validation {
