@@ -8,7 +8,8 @@ on:
 jobs:
   terraform:
     name: Terraform
-    runs-on: ubuntu-latest
+    runs-on:
+      group: large-runners
 
     steps:
       - name: Checkout Repository
